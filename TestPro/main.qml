@@ -13,4 +13,8 @@ ApplicationWindow {
         anchors.fill: prent;
         color: "blue";
     }
+    Button {
+        id: btnOk;
+        text: "ok";
+    }
 }
