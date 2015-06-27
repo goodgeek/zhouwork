@@ -12,6 +12,9 @@ ApplicationWindow {
 
     SystemManager {
         id: sysManager;
+        onNewInfo: {
+            textArea.append(info);
+        }
     }
 
     TextArea {

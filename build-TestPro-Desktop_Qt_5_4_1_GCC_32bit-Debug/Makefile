@@ -931,7 +931,25 @@ systemmanager.o: ../TestPro/systemmanager.cpp ../TestPro/systemmanager.h \
 		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qisenum.h \
-		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qobject_impl.h
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qobject_impl.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/QDebug \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qdebug.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qhash.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qpair.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qmap.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qtextstream.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qiodevice.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qlocale.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qvariant.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qstringlist.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qdatastream.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qregexp.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qshareddata.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qvector.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qpoint.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qset.h \
+		/opt/Qt5.4.1/5.4/gcc/include/QtCore/qcontiguouscache.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o systemmanager.o ../TestPro/systemmanager.cpp
 
 qrc_qml.o: qrc_qml.cpp 

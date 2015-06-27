@@ -2,6 +2,9 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <QDebug>
 
 SystemManager::SystemManager()
@@ -16,18 +19,15 @@ SystemManager::~SystemManager()
 
 QString SystemManager::getInfo()
 {
-    pid_t chpid;
+    int fd = open("test.file", O_CREAT | O_APPEND);
+    if (fd == -1) {
+        qDebug() << "Open file error" << strerror(errno);
+        return "";
 
-    chpid = fork();
-    if (chpid == 0) {
-        qDebug() << "I'm child process" << getpid();
-        qDebug() << "I'm father is: " << getppid();
     }
-    else {
-        waitpid(chpid, NULL, 0);
-        qDebug() << "I'm father process " << getpid();
-    }
+    qDebug() << "Open file ok";
+    close(fd);
 
-    return "over";
+    return "ok";
 }
 

@@ -10,6 +10,8 @@ public:
     SystemManager();
     ~SystemManager();
     Q_INVOKABLE QString getInfo();
+signals:
+    void newInfo(QString info);
 };
 
 #endif // SYSTEMMANAGER_H
