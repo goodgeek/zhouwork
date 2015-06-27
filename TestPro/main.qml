@@ -10,12 +10,16 @@ ApplicationWindow {
     visible: true
 
     Rectangle {
-        anchors.fill: prent;
+        anchors.fill: parent;
         color: "blue";
     }
+
     Button {
         id: btnOk;
         text: "ok";
+        onClicked: {
+            console.log("clicked ok button");
+        }
     }
 }
 
