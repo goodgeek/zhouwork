@@ -6,9 +6,9 @@ import zhou.app.cn 1.0
 
 ApplicationWindow {
     title: qsTr("Hello World")
-    width: 640
-    height: 480
-    visible: true
+    width: 640;
+    height: 500;
+    visible: true;
 
     SystemManager {
         id: sysManager;
@@ -25,16 +25,35 @@ ApplicationWindow {
         height: 400;
     }
 
-    Button {
-        id: btnOk;
+    Row {
         anchors.left: parent.left;
         anchors.bottom: parent.bottom;
-        text: "ok";
-        onClicked: {
-            console.log("clicked ok button");
-            var info = sysManager.getInfo();
-            console.log(info);
-            textArea.append(info);
+        width: parent.width;
+        height: 100;
+        spacing: 5;
+
+        Button {
+            id: btnOpenFile;
+            text: "OpenFile";
+            onClicked: {
+                sysManager.openFile();
+            }
+        }
+
+        Button {
+            id: btnWriteFile;
+            text: "WriteFile";
+            onClicked: {
+                sysManager.writeFile("hello world!");
+            }
+        }
+
+        Button {
+            id: btnReadFile;
+            text: "ReadFile";
+            onClicked: {
+                textArea.append(sysManager.readFile());
+            }
         }
     }
 }
