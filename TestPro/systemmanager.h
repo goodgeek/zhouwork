@@ -13,6 +13,7 @@ public:
     Q_INVOKABLE bool openFile();
     Q_INVOKABLE bool writeFile(QString fileData);
     Q_INVOKABLE QString readFile();
+    Q_INVOKABLE void fileTest();
 signals:
     void newInfo(QString info);
 private:
