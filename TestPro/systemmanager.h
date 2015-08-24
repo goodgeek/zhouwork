@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE bool writeFile(QString fileData);
     Q_INVOKABLE QString readFile();
     Q_INVOKABLE void fileTest();
+    Q_INVOKABLE void getFileInfo(QString fileName);
 signals:
     void newInfo(QString info);
 private:

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SystemManager_t {
-    QByteArrayData data[10];
-    char stringdata[82];
+    QByteArrayData data[12];
+    char stringdata[103];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,12 +38,14 @@ QT_MOC_LITERAL(5, 36, 8), // "openFile"
 QT_MOC_LITERAL(6, 45, 9), // "writeFile"
 QT_MOC_LITERAL(7, 55, 8), // "fileData"
 QT_MOC_LITERAL(8, 64, 8), // "readFile"
-QT_MOC_LITERAL(9, 73, 8) // "fileTest"
+QT_MOC_LITERAL(9, 73, 8), // "fileTest"
+QT_MOC_LITERAL(10, 82, 11), // "getFileInfo"
+QT_MOC_LITERAL(11, 94, 8) // "fileName"
 
     },
     "SystemManager\0newInfo\0\0info\0getInfo\0"
     "openFile\0writeFile\0fileData\0readFile\0"
-    "fileTest"
+    "fileTest\0getFileInfo\0fileName"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +55,7 @@ static const uint qt_meta_data_SystemManager[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -61,14 +63,15 @@ static const uint qt_meta_data_SystemManager[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   44,    2, 0x06 /* Public */,
+       1,    1,   49,    2, 0x06 /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-       4,    0,   47,    2, 0x02 /* Public */,
-       5,    0,   48,    2, 0x02 /* Public */,
-       6,    1,   49,    2, 0x02 /* Public */,
-       8,    0,   52,    2, 0x02 /* Public */,
-       9,    0,   53,    2, 0x02 /* Public */,
+       4,    0,   52,    2, 0x02 /* Public */,
+       5,    0,   53,    2, 0x02 /* Public */,
+       6,    1,   54,    2, 0x02 /* Public */,
+       8,    0,   57,    2, 0x02 /* Public */,
+       9,    0,   58,    2, 0x02 /* Public */,
+      10,    1,   59,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -79,6 +82,7 @@ static const uint qt_meta_data_SystemManager[] = {
     QMetaType::Bool, QMetaType::QString,    7,
     QMetaType::QString,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   11,
 
        0        // eod
 };
@@ -98,6 +102,7 @@ void SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 4: { QString _r = _t->readFile();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         case 5: _t->fileTest(); break;
+        case 6: _t->getFileInfo((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -137,13 +142,13 @@ int SystemManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

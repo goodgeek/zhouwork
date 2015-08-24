@@ -99,3 +99,37 @@ void SystemManager::fileTest()
 
     ssize_t nRead = read(fd, readBuf, sizeof(readBuf));
 }
+
+void SystemManager::getFileInfo(QString fileName)
+{
+    /*
+    if (fileName.isNull())
+    {
+        emit newInfo(QString("File Name error"));
+        return;
+    }
+
+    QByteArray ba = fileName.toLatin1();
+    int fd = open(ba, O_RDWR | O_EXCL | O_APPEND);
+    if (fd != 0)
+    {
+        emit newInfo(QString("Open file failed"));
+        close(fd);
+        return;
+    }
+    struct stat fileStat;
+    if (fstat(fd, &fileStat) == -1)
+    {
+        emit newInfo(QString("Get File Info failed"));
+        close(fd);
+        return;
+    }
+
+    if (S_ISREG(fileStat.st_mode))
+    {
+        emit newInfo(QString("regelar file"));
+    }
+
+    close(fd);
+    */
+}

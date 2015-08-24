@@ -55,6 +55,13 @@ ApplicationWindow {
                 textArea.append(sysManager.readFile());
             }
         }
+        Button {
+            id: btnGetFileInfo;
+            text: "GetFileInfo";
+            onClicked: {
+                sysManager.getInfo("test.txt");
+            }
+        }
     }
 }
 
