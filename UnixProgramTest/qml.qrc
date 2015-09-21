@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>LeftBarButton.qml</file>
+        <file>FormConfig.qml</file>
+        <file>FormFile.qml</file>
     </qresource>
 </RCC>
