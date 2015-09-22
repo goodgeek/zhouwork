@@ -19,9 +19,6 @@ ApplicationWindow {
         id: formFile;
     }
 
-    function setButton() {
-    }
-
     //Left Bar
     Rectangle {
         id: leftBar;
@@ -77,6 +74,5 @@ ApplicationWindow {
         width: mainWidnow.width - leftBar.width;
         height: mainWidnow.height;
         initialItem: formConfig;
-
     }
 }

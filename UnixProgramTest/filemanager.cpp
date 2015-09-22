@@ -5,6 +5,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <QTextCodec>
+#include <threadfileread.h>
 
 FileManager::FileManager(QObject *parent) : QObject(parent)
 {
@@ -25,37 +27,47 @@ QString FileManager::getPid()
 
 bool FileManager::openFile()
 {
-    fd = open("test.txt", O_RDWR | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
+    fd = open("222.log", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 
     if (fd == -1)
     {
+        emit setMessage(QString("Open File failed: ") + strerror(errno));
         qDebug() << "Open File failed: " << strerror(errno) << endl;
         return false;
     }
 
+    struct stat statBuf;
+
+    if (stat("222.log", &statBuf) > 0)
+    {
+        emit setMessage(QString("File size: ") + QString::number(statBuf.st_uid));
+    }
+    else
+    {
+        emit setMessage(QString("Get File size faild: %1").arg(strerror(errno)));
+    }
+
+    off_t fileSeek = lseek(fd, 0, SEEK_CUR);
+    emit setMessage(QString("File seek :%1").arg(fileSeek));
     emit setMessage("Open File success fd: " + QString::number(fd));
 
-    char *dataBuf = "Hello world";
-
-    if (write(fd, dataBuf, strlen(dataBuf)) == -1)
-    {
-        emit setMessage(QString("Write file is failed: ") + strerror(errno));
-        return false;
-    }
+    return true;
 }
 
-QString FileManager::readFile()
+void FileManager::readFile()
 {
-    /*
-    char readBuf[1024];
+    ThreadFileRead *threadFileRead = new ThreadFileRead();
+    connect(threadFileRead, SIGNAL(getMessage(QString)), this, SLOT(onReadFile(QString)));
+    threadFileRead->setFd(fd);
+    threadFileRead->start();
+}
 
-    if (read(fd, readBuf, sizeof(readBuf)) == -1)
-    {
-        emit setMessage(QString("Read file is failed") + strerror(errno));
-        return "";
-    }
+void FileManager::onReadFile(QString msg)
+{
+    emit setMessage(msg);
+}
 
-    emit setMessage(readBuf);
+void FileManager::closeFile()
+{
     close(fd);
-    */
 }

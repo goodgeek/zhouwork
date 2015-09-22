@@ -11,10 +11,12 @@ public:
 
     Q_INVOKABLE QString getPid();
     Q_INVOKABLE bool openFile();
-    Q_INVOKABLE QString readFile();
+    Q_INVOKABLE void readFile();
+    Q_INVOKABLE void closeFile();
 signals:
     QString setMessage(QString msg);
 public slots:
+    void onReadFile(QString msg);
 private:
     int fd;
 };

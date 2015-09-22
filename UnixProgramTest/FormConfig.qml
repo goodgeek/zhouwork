@@ -47,7 +47,9 @@ Rectangle {
             id: btnReadFile;
             text: "Read File";
             onClicked: {
+                console.time("ReadFile");
                 unixFileManager.readFile();
+                console.timeEnd("ReadFile");
             }
         }
 
@@ -55,7 +57,7 @@ Rectangle {
             id: btnCloseFile;
             text: "Close File";
             onClicked: {
-
+                unixFileManager.closeFile();
             }
         }
     }

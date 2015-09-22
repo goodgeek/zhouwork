@@ -3,7 +3,8 @@ TEMPLATE = app
 QT += qml quick widgets
 
 SOURCES += main.cpp \
-    filemanager.cpp
+    filemanager.cpp \
+    threadfileread.cpp
 
 RESOURCES += qml.qrc \
     res.qrc
@@ -15,4 +16,5 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    filemanager.h
+    filemanager.h \
+    threadfileread.h

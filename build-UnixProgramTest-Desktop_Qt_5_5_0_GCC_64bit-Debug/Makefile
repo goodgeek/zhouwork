@@ -49,14 +49,18 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../UnixProgramTest/main.cpp \
-		../UnixProgramTest/filemanager.cpp qrc_qml.cpp \
+		../UnixProgramTest/filemanager.cpp \
+		../UnixProgramTest/threadfileread.cpp qrc_qml.cpp \
 		qrc_res.cpp \
-		moc_filemanager.cpp
+		moc_filemanager.cpp \
+		moc_threadfileread.cpp
 OBJECTS       = main.o \
 		filemanager.o \
+		threadfileread.o \
 		qrc_qml.o \
 		qrc_res.o \
-		moc_filemanager.o
+		moc_filemanager.o \
+		moc_threadfileread.o
 DIST          = /opt/Qt5.5.0/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.0/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.5.0/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -190,8 +194,10 @@ DIST          = /opt/Qt5.5.0/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.5.0/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/Qt5.5.0/5.5/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.5.0/5.5/gcc_64/mkspecs/features/lex.prf \
-		../UnixProgramTest/UnixProgramTest.pro ../UnixProgramTest/filemanager.h ../UnixProgramTest/main.cpp \
-		../UnixProgramTest/filemanager.cpp
+		../UnixProgramTest/UnixProgramTest.pro ../UnixProgramTest/filemanager.h \
+		../UnixProgramTest/threadfileread.h ../UnixProgramTest/main.cpp \
+		../UnixProgramTest/filemanager.cpp \
+		../UnixProgramTest/threadfileread.cpp
 QMAKE_TARGET  = UnixProgramTest
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = UnixProgramTest
@@ -522,8 +528,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../UnixProgramTest/qml.qrc ../UnixProgramTest/res.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../UnixProgramTest/filemanager.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../UnixProgramTest/main.cpp ../UnixProgramTest/filemanager.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../UnixProgramTest/filemanager.h ../UnixProgramTest/threadfileread.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../UnixProgramTest/main.cpp ../UnixProgramTest/filemanager.cpp ../UnixProgramTest/threadfileread.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -560,9 +566,9 @@ qrc_res.cpp: ../UnixProgramTest/res.qrc \
 		../UnixProgramTest/res/configure.png
 	/opt/Qt5.5.0/5.5/gcc_64/bin/rcc -name res ../UnixProgramTest/res.qrc -o qrc_res.cpp
 
-compiler_moc_header_make_all: moc_filemanager.cpp
+compiler_moc_header_make_all: moc_filemanager.cpp moc_threadfileread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_filemanager.cpp
+	-$(DEL_FILE) moc_filemanager.cpp moc_threadfileread.cpp
 moc_filemanager.cpp: /opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QObject \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobjectdefs.h \
@@ -618,6 +624,62 @@ moc_filemanager.cpp: /opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QObject \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject_impl.h \
 		../UnixProgramTest/filemanager.h
 	/opt/Qt5.5.0/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.5.0/5.5/gcc_64/mkspecs/linux-g++ -I/root/zhouwork/UnixProgramTest -I/opt/Qt5.5.0/5.5/gcc_64/include -I/opt/Qt5.5.0/5.5/gcc_64/include/QtQuick -I/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets -I/opt/Qt5.5.0/5.5/gcc_64/include/QtGui -I/opt/Qt5.5.0/5.5/gcc_64/include/QtQml -I/opt/Qt5.5.0/5.5/gcc_64/include/QtNetwork -I/opt/Qt5.5.0/5.5/gcc_64/include/QtCore -I. ../UnixProgramTest/filemanager.h -o moc_filemanager.cpp
+
+moc_threadfileread.cpp: /opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		../UnixProgramTest/threadfileread.h
+	/opt/Qt5.5.0/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/Qt5.5.0/5.5/gcc_64/mkspecs/linux-g++ -I/root/zhouwork/UnixProgramTest -I/opt/Qt5.5.0/5.5/gcc_64/include -I/opt/Qt5.5.0/5.5/gcc_64/include/QtQuick -I/opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets -I/opt/Qt5.5.0/5.5/gcc_64/include/QtGui -I/opt/Qt5.5.0/5.5/gcc_64/include/QtQml -I/opt/Qt5.5.0/5.5/gcc_64/include/QtNetwork -I/opt/Qt5.5.0/5.5/gcc_64/include/QtCore -I. ../UnixProgramTest/threadfileread.h -o moc_threadfileread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1001,8 +1063,67 @@ filemanager.o: ../UnixProgramTest/filemanager.cpp ../UnixProgramTest/filemanager
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontiguouscache.h
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QTextCodec \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qtextcodec.h \
+		../UnixProgramTest/threadfileread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filemanager.o ../UnixProgramTest/filemanager.cpp
+
+threadfileread.o: ../UnixProgramTest/threadfileread.cpp ../UnixProgramTest/threadfileread.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o threadfileread.o ../UnixProgramTest/threadfileread.cpp
 
 qrc_qml.o: qrc_qml.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qml.o qrc_qml.cpp
@@ -1012,6 +1133,9 @@ qrc_res.o: qrc_res.cpp
 
 moc_filemanager.o: moc_filemanager.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_filemanager.o moc_filemanager.cpp
+
+moc_threadfileread.o: moc_threadfileread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_threadfileread.o moc_threadfileread.cpp
 
 ####### Install
 
