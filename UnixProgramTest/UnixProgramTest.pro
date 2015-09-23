@@ -4,7 +4,9 @@ QT += qml quick widgets
 
 SOURCES += main.cpp \
     filemanager.cpp \
-    threadfileread.cpp
+    threadfileread.cpp \
+    dirlistmodel.cpp \
+    unixfile.cpp
 
 RESOURCES += qml.qrc \
     res.qrc
@@ -17,4 +19,6 @@ include(deployment.pri)
 
 HEADERS += \
     filemanager.h \
-    threadfileread.h
+    threadfileread.h \
+    dirlistmodel.h \
+    unixfile.h

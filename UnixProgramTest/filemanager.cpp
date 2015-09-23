@@ -71,3 +71,16 @@ void FileManager::closeFile()
 {
     close(fd);
 }
+
+QString FileManager::getCurrentPath()
+{
+    long pathSize = pathconf(".", _PC_PATH_MAX);
+    if (pathSize == -1)
+        return "";
+
+    char pathBuf[pathSize];
+    qDebug() << "Path Size: " << pathSize;
+
+    getcwd(pathBuf, sizeof(pathBuf));
+    return pathBuf;
+}

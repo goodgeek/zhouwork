@@ -7,16 +7,12 @@ ApplicationWindow {
     id: mainWidnow;
     visible: true;
     title: "Unix Show"
-    width: 800;
-    height: 500;
+    width: 1100;
+    height: 600;
     color: "#CCCCCC";
 
-    FormConfig {
-        id: formConfig;
-    }
-
-    FormFile {
-        id: formFile;
+    function showProgrem() {
+        console.log("test");
     }
 
     //Left Bar
@@ -44,7 +40,7 @@ ApplicationWindow {
                 iconPath: "qrc:res/configure.png";
                 onBtnClicked: {
                     stackView.clear();
-                    stackView.push(formConfig);
+                    stackView.push(Qt.resolvedUrl("FormConfig.qml"));
                 }
             }
 
@@ -54,7 +50,8 @@ ApplicationWindow {
                 btnText: "Start";
                 onBtnClicked: {
                     stackView.clear();
-                    stackView.push(formFile);
+                    stackView.push(Qt.resolvedUrl("FormFile.qml"),
+                                   {fileName: "test.txt", rectMain: mainWidnow});
                 }
             }
 
@@ -73,6 +70,6 @@ ApplicationWindow {
         anchors.left: leftBar.right;
         width: mainWidnow.width - leftBar.width;
         height: mainWidnow.height;
-        initialItem: formConfig;
+        //initialItem: formLoader;
     }
 }

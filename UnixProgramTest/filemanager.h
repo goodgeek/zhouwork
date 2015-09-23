@@ -13,6 +13,7 @@ public:
     Q_INVOKABLE bool openFile();
     Q_INVOKABLE void readFile();
     Q_INVOKABLE void closeFile();
+    Q_INVOKABLE QString getCurrentPath();
 signals:
     QString setMessage(QString msg);
 public slots:
