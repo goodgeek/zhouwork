@@ -9,6 +9,7 @@ Rectangle {
     property string fileName: "";
     property var rectMain: null;
 
+
     Component.onCompleted: {
         console.log("Start Form");
     }
@@ -16,6 +17,8 @@ Rectangle {
     Component.onDestruction: {
         console.log("Destory Form");
     }
+
+
 
     DirListModel {
         id: dirListModel;
@@ -55,6 +58,11 @@ Rectangle {
             title: "FileUID";
             role: "fileUid";
         }
+
+        TableViewColumn {
+            title: "FileAccess";
+            role: "fileAccess";
+        }
     }
 
     Rectangle {
@@ -65,11 +73,9 @@ Rectangle {
         height: 50;
         color: "#999999";
 
-        focus: true;
         Keys.enabled: true;
-        Keys.onEnterPressed: {
+        Keys.onReturnPressed: {
             dirListModel.getDirList(textPathName.text.trim());
-            console.log("pressed getListFiles");
         }
 
         Row {
@@ -95,6 +101,14 @@ Rectangle {
                 id: textPathName;
                 text: "/root";
                 width: 200;
+            }
+
+            Button {
+                id: btnFucnk;
+                text: "funck";
+                onClicked: {
+                    dirListModel.getFunck();
+                }
             }
         }
     }

@@ -4,5 +4,6 @@
         <file>LeftBarButton.qml</file>
         <file>FormConfig.qml</file>
         <file>FormFile.qml</file>
+        <file>FormUnixData.qml</file>
     </qresource>
 </RCC>

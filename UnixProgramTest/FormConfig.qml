@@ -12,6 +12,9 @@ Rectangle {
         onSetMessage: {
             textArea.append(msg)
         }
+        onFileProgressValue: {
+            progressBar.value = fileValue;
+        }
     }
 
     TextArea {
@@ -59,6 +62,38 @@ Rectangle {
             onClicked: {
                 unixFileManager.closeFile();
             }
+        }
+
+        Text {
+            text: "Form ";
+        }
+
+        TextField {
+            id: fromFile;
+        }
+
+        Text {
+            text: "To ";
+        }
+
+        TextField {
+            id: toFilie;
+        }
+
+        Button {
+            id: btnCopyFile;
+            text: "CopyFile";
+            onClicked: {
+                console.time("copyFile");
+                unixFileManager.copyFile(fromFile.text.trim(), toFilie.text.trim());
+                console.timeEnd("copyFile");
+            }
+        }
+
+        ProgressBar {
+            id: progressBar;
+            maximumValue: 100;
+            minimumValue: 0;
         }
     }
 

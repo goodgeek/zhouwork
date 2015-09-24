@@ -14,6 +14,7 @@ public:
     QString fileMode;
     QString fileUid;
     QString fileStTime;
+    QString fileAccess;
 };
 
 #endif // UNIXFILE_H

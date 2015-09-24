@@ -2,9 +2,12 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <dirent.h>
 #include <unixfile.h>
 #include <QDebug>
+#include <errno.h>
+#include <sys/utsname.h>
 
 DirListModel::DirListModel()
 {
@@ -85,6 +88,7 @@ void  DirListModel::getDirList(QString path)
 
         struct stat statBuf;
         file->fileName = fName;
+        qDebug() << "File: " << fName << endl;
 
         if (stat(fName.toLatin1(), &statBuf) == 0) {
             file->fileSize = QString::number(statBuf.st_size / 1024) + " KB";
@@ -97,6 +101,20 @@ void  DirListModel::getDirList(QString path)
             else if (S_ISDIR(statBuf.st_mode)) {
                 file->fileMode = "directory";
             }
+
+            if (S_IRUSR & statBuf.st_mode) {
+                file->fileAccess = "r";
+            }
+            if (S_IWUSR & statBuf.st_mode) {
+                file->fileAccess += "w";
+            }
+            if (S_IXUSR & statBuf.st_mode)
+            {
+                file->fileAccess += "x";
+            }
+        }
+        else {
+            qDebug() << "Stat failed: " << strerror(errno) << endl;
         }
 
         fileList.append(file);
@@ -105,4 +123,17 @@ void  DirListModel::getDirList(QString path)
     closedir(dir);
 
     emit layoutChanged();
+}
+
+
+void DirListModel::getFunck()
+{
+    int fd;
+
+    fd = open("333.log", O_RDWR | O_TRUNC);
+    if (fd == -1) {
+        qDebug() << "Open file 333.log failed:" << strerror(errno) << endl;
+        return;
+    }
+    close(fd);
 }

@@ -1,6 +1,7 @@
 #include "filemanager.h"
 #include <QDebug>
 #include <unistd.h>
+#include <sys/time.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -83,4 +84,57 @@ QString FileManager::getCurrentPath()
 
     getcwd(pathBuf, sizeof(pathBuf));
     return pathBuf;
+}
+
+
+void FileManager::copyFile(QString fromFile, QString toFile)
+{
+    struct timeval startTime, endTime;
+
+    gettimeofday(&startTime, NULL);
+    if (access(fromFile.toLatin1(), F_OK) == -1) {
+        emit setMessage(fromFile + ":No This File");
+        return;
+    }
+
+    int toFd;
+
+    toFd = open(toFile.toLatin1(), O_WRONLY | O_CREAT | O_TRUNC,
+                S_IRUSR | S_IWUSR);
+    if (toFd == -1) {
+        emit setMessage(QString("Create toFile failed:") + strerror(errno));
+        return;
+    }
+
+    struct stat statBuf;
+    fstat(toFd, &statBuf);
+
+    int fileSize = statBuf.st_size;
+
+    int fromFd;
+
+    fromFd = open(fromFile.toLatin1(), O_RDONLY);
+    if (fromFd == -1) {
+        emit setMessage(QString("Open fromFile failed:") + strerror(errno));
+        return;
+    }
+    emit setMessage("Start Copying file...");
+
+    char fileDataBuf[65536] = {0};
+    ssize_t readCount = 0;
+    int i = 0;
+
+    while ((readCount = read(fromFd, fileDataBuf, sizeof(fileDataBuf))) > 0) {
+        write(toFd, fileDataBuf, readCount);
+        emit setMessage(QString("CopyFile :%1").arg(readCount));
+        emit fileProgressValue(i++);
+    }
+
+    close(toFd);
+    close(fromFd);
+
+    gettimeofday(&endTime, NULL);
+    float timeUse = (endTime.tv_sec - startTime.tv_sec) +
+            (endTime.tv_usec - startTime.tv_usec);
+    qDebug() << "Use Time: " << timeUse << "us" << endl;
 }

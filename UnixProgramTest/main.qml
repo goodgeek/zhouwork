@@ -58,8 +58,12 @@ ApplicationWindow {
             LeftBarButton {
                 id: btnStop;
                 iconPath: "qrc:res/computer.png";
-                btnText: "Stop";
-            }
+                btnText: "Unix Data";
+                onBtnClicked: {
+                    stackView.clear();
+                    stackView.push(Qt.resolvedUrl("FormUnixData.qml"));
+                }
+           }
         }
     }
 

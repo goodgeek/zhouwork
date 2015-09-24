@@ -6,7 +6,8 @@ SOURCES += main.cpp \
     filemanager.cpp \
     threadfileread.cpp \
     dirlistmodel.cpp \
-    unixfile.cpp
+    unixfile.cpp \
+    unixdatamanager.cpp
 
 RESOURCES += qml.qrc \
     res.qrc
@@ -21,4 +22,5 @@ HEADERS += \
     filemanager.h \
     threadfileread.h \
     dirlistmodel.h \
-    unixfile.h
+    unixfile.h \
+    unixdatamanager.h

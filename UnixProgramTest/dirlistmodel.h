@@ -16,6 +16,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE void getDirList(QString path);
+    Q_INVOKABLE void getFunck();
 private:
     QHash<int, QByteArray> fileRoleName;
     QList<UnixFile *> fileList;
