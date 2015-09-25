@@ -7,7 +7,10 @@ SOURCES += main.cpp \
     threadfileread.cpp \
     dirlistmodel.cpp \
     unixfile.cpp \
-    unixdatamanager.cpp
+    unixdatamanager.cpp \
+    pwdobject.cpp \
+    shadowdata.cpp \
+    unixshadowdatalistmodel.cpp
 
 RESOURCES += qml.qrc \
     res.qrc
@@ -23,4 +26,7 @@ HEADERS += \
     threadfileread.h \
     dirlistmodel.h \
     unixfile.h \
-    unixdatamanager.h
+    unixdatamanager.h \
+    pwdobject.h \
+    shadowdata.h \
+    unixshadowdatalistmodel.h
