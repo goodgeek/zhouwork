@@ -12,9 +12,6 @@ Rectangle {
         onSetMessage: {
             textArea.append(msg)
         }
-        onFileProgressValue: {
-            progressBar.value = fileValue;
-        }
     }
 
     TextArea {
@@ -90,10 +87,12 @@ Rectangle {
             }
         }
 
-        ProgressBar {
-            id: progressBar;
-            maximumValue: 100;
-            minimumValue: 0;
+        Button {
+            id: btnReadFileBuf;
+            text: "ReadFile";
+            onClicked: {
+                unixFileManager.readFileForBuf();
+            }
         }
     }
 

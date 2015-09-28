@@ -15,6 +15,7 @@ public:
     Q_INVOKABLE void closeFile();
     Q_INVOKABLE QString getCurrentPath();
     Q_INVOKABLE void copyFile(QString fromFile, QString toFile);
+    Q_INVOKABLE void readFileForBuf();
 signals:
     QString setMessage(QString msg);
     void fileProgressValue(int fileValue);

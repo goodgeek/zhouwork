@@ -8,6 +8,10 @@
 #include <fcntl.h>
 #include <QTextCodec>
 #include <threadfileread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <time.h>
 
 FileManager::FileManager(QObject *parent) : QObject(parent)
 {
@@ -137,4 +141,78 @@ void FileManager::copyFile(QString fromFile, QString toFile)
     float timeUse = (endTime.tv_sec - startTime.tv_sec) +
             (endTime.tv_usec - startTime.tv_usec);
     qDebug() << "Use Time: " << timeUse << "us" << endl;
+}
+
+
+void FileManager::readFileForBuf()
+{
+    FILE *fp;
+
+    struct timeval startTime, endTime;
+    struct timespec sTime, eTime;
+
+    clock_gettime(CLOCK_REALTIME, &sTime);
+    gettimeofday(&startTime, NULL);
+    char memBuf[4096];
+
+    fp = fmemopen(memBuf, sizeof(memBuf), "w+");
+    if (fp == NULL) {
+        qDebug() << "fmemopen failed" << strerror(errno) << endl;
+    }
+    fputs("hello world\n", fp);
+
+    fseek(fp, 0, SEEK_SET);
+    char buf[256] = {0};
+    fgets(buf, sizeof(buf), fp);
+    qDebug() << "Read Buf: " << buf << endl;
+    fclose(fp);
+
+
+    time_t nowTime;
+    if (time(&nowTime) == -1) {
+        qDebug() << "Time failed" << strerror(errno) << endl;
+    }
+
+    struct tm *nowTm;
+    nowTm = localtime(&nowTime);
+    char timeBuf[256];
+    strftime(timeBuf, sizeof(timeBuf), "%Y-%m-%d", nowTm);
+    qDebug() << "Now Time: " << timeBuf << endl;
+
+    /*
+    fp = fopen("444.log", "r");
+    if (fp == NULL) {
+        qDebug() << "Open File failed" << endl;
+        return;
+    }
+
+    char dataBuf[256];
+    fpos_t ipos;
+
+    while (fread(dataBuf, sizeof(dataBuf), 1, fp) != 0) {
+        fgetpos(fp, &ipos);
+        qDebug() << "File Pos: " << ipos << endl;
+    }
+
+    while (fgets(dataBuf, sizeof(dataBuf), fp) != NULL) {
+        //emit setMessage(dataBuf);
+    }
+    if (ferror(fp)) {
+        qDebug() << "Read File error" << endl;
+    }
+    else if (feof(fp)) {
+        qDebug() << "Read File End" << endl;
+    }
+
+    fclose(fp);
+    */
+
+    gettimeofday(&endTime, NULL);
+    float useTime = (endTime.tv_sec - startTime.tv_sec) +
+            (endTime.tv_usec - startTime.tv_usec);
+    qDebug() << "Use Time: " << useTime << "us" << endl;
+
+    clock_gettime(CLOCK_REALTIME, &eTime);
+    float uTime = eTime.tv_sec - sTime.tv_sec + eTime.tv_nsec - sTime.tv_nsec;
+    qDebug() << "clock get use Time: " << uTime << endl;
 }
