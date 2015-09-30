@@ -5,6 +5,8 @@
 #include <dirlistmodel.h>
 #include "unixdatamanager.h"
 #include "unixshadowdatalistmodel.h"
+#include "processmanager.h"
+#include "pthreadhandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +16,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<DirListModel>("zhou.unix.dirs", 1, 0, "DirListModel");
     qmlRegisterType<UnixDataManager>("zhou.unix.data", 1, 0, "UnixDataManager");
     qmlRegisterType<UnixShadowDataListModel>("zhou.unix.shadow", 1, 0, "UnixShadowDataListModel");
+    qmlRegisterType<ProcessManager>("zhou.unix.process", 1, 0, "ProcessManager");
+    qmlRegisterType<PthreadHandler>("zhou.unix.thread", 1, 0, "PthreadHandler");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

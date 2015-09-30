@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.2
 import zhou.unix.data 1.0
 import zhou.unix.shadow 1.0
+import zhou.unix.thread 1.0
 
 Rectangle {
     id: mainRect;
@@ -17,12 +18,20 @@ Rectangle {
         id: unixShadowModel;
     }
 
+    PthreadHandler {
+        id: pthreadHandler;
+    }
+
     Loader {
         id: formLoader;
         onLoaded: {
             item.unxShadowListModel = unixShadowModel;
             item.testName = "testzhu";
         }
+    }
+
+    Loader {
+        id: formProgress;
     }
 
     TableView {
@@ -117,8 +126,21 @@ Rectangle {
 
             Button {
                 id: btnGroup;
-                text: "group";
+                text: "Progress";
                 style: btnStyle;
+                onClicked: {
+                    formProgress.source = "";
+                    formProgress.source = "FormProgress.qml";
+                }
+            }
+
+            Button {
+                id: btnThread;
+                text: "Thread";
+                style: btnStyle;
+                onClicked: {
+                    pthreadHandler.startThread();
+                }
             }
         }
     }

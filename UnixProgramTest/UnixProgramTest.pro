@@ -10,7 +10,9 @@ SOURCES += main.cpp \
     unixdatamanager.cpp \
     pwdobject.cpp \
     shadowdata.cpp \
-    unixshadowdatalistmodel.cpp
+    unixshadowdatalistmodel.cpp \
+    processmanager.cpp \
+    pthreadhandler.cpp
 
 RESOURCES += qml.qrc \
     res.qrc
@@ -29,4 +31,6 @@ HEADERS += \
     unixdatamanager.h \
     pwdobject.h \
     shadowdata.h \
-    unixshadowdatalistmodel.h
+    unixshadowdatalistmodel.h \
+    processmanager.h \
+    pthreadhandler.h

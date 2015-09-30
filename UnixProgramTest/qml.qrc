@@ -6,5 +6,6 @@
         <file>FormFile.qml</file>
         <file>FormUnixData.qml</file>
         <file>FormShadowData.qml</file>
+        <file>FormProgress.qml</file>
     </qresource>
 </RCC>
