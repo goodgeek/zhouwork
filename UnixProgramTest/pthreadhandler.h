@@ -9,6 +9,8 @@ class PthreadHandler : public QObject
 public:
     PthreadHandler();
     Q_INVOKABLE void startThread();
+private:
+    //int fd;
 };
 
 #endif // PTHREADHANDLER_H
