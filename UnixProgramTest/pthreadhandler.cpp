@@ -1,6 +1,7 @@
 #include "pthreadhandler.h"
 #include <pthread.h>
 #include <QDebug>
+#include <QTime>
 #include <unistd.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -13,15 +14,20 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <sys/uio.h>
-#include <aio.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <time.h>
+#include <stdio.h>
 
 static int fd;
+static FILE *mfp;
+static char memFileBuf[1024];
 pthread_mutex_t   mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t    cond = PTHREAD_COND_INITIALIZER;
 pthread_barrier_t barrier;
 pthread_once_t    ponce = PTHREAD_ONCE_INIT;
 pthread_key_t     pkey;
-bool startWrite = false;
+static bool doRead = false;
 static jmp_buf jmpBuff;
 
 PthreadHandler::PthreadHandler()
@@ -31,36 +37,45 @@ PthreadHandler::PthreadHandler()
 
 void *pthread_handler1(void *)
 {
-    char *writeBuf = "1.hello world\n";
-    char *writeBuf2 = "2.what is your name\n";
+    char readBuf[256] = {0};
 
-    struct iovec ive[2];
-
-    ive[0].iov_base = writeBuf;
-    ive[0].iov_len = strlen(writeBuf);
-
-    ive[1].iov_base = writeBuf2;
-    ive[1].iov_len = strlen(writeBuf2);
-
-    if (writev(fd, ive, 2) == -1) {
-        qDebug() << "Write failed" << strerror(errno) << endl;
+    pthread_mutex_lock(&mutex);
+    while (!doRead) {
+        pthread_cond_wait(&cond, &mutex);
     }
+
+    fseek(mfp, 0, SEEK_SET);
+    while (1) {
+        if (fgets(readBuf, sizeof(readBuf), mfp) == NULL) {
+            if (feof(mfp)) {
+                qDebug() << "Read File End";
+                break;
+            }
+            else if (ferror(mfp)) {
+                qDebug() << "Read file failed" << endl;
+                break;
+            }
+        }
+        qDebug() << "Read data: " << readBuf << endl;
+    }
+    pthread_mutex_unlock(&mutex);
 }
+
 
 
 void *pthread_handler2(void *)
 {
+    char *writeBuf = "cccccccccccccccccc";
 
-    char *writeBuf = "aaaaaaaaaaaaaaaaaaaaaa\n";
-    struct timespec waitTime = {0, 10000000};
-
-    for (int i = 0; i < strlen(writeBuf); i++) {
-        write(fd, writeBuf+i, 1);
-
-        nanosleep(&waitTime, NULL);
+    pthread_mutex_lock(&mutex);
+    if (fputs(writeBuf, mfp) == EOF) {
+        if (ferror(mfp)) {
+            qDebug() << "Write file error" << endl;
+        }
     }
-
-    qDebug() << "Thread 2 run success";
+    pthread_mutex_unlock(&mutex);
+    doRead = true;
+    pthread_cond_signal(&cond);
 }
 
 void sigHandler(int signo)
@@ -85,16 +100,16 @@ void PthreadHandler::startThread()
         qDebug() << "Pthread 2 create failed";
     }
 
-    fd = open("threadtest.log", O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-    if (fd == -1) {
-        qDebug() << "Open File failed" << strerror(errno) << endl;
-        return;
+    mfp = fmemopen(memFileBuf, sizeof(memFileBuf), "w+");
+    if (mfp == NULL) {
+        qDebug() << "Open mem file failed" << strerror(errno) << endl;
     }
+
 
     pthread_join(tid1, NULL);
     pthread_join(tid2, NULL);
 
-    close(fd);
+    fclose(mfp);
 
     qDebug() << "Thead main " << pthread_self() << endl;
 }
