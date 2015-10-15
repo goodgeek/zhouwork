@@ -29,6 +29,7 @@ pthread_once_t    ponce = PTHREAD_ONCE_INIT;
 pthread_key_t     pkey;
 static bool doRead = false;
 static jmp_buf jmpBuff;
+#define FILEBUFSIZE 65535
 
 PthreadHandler::PthreadHandler()
 {
@@ -37,51 +38,96 @@ PthreadHandler::PthreadHandler()
 
 void *pthread_handler1(void *)
 {
-    char readBuf[256] = {0};
+    /*
+    struct timespec startTime, endTime;
 
-    pthread_mutex_lock(&mutex);
-    while (!doRead) {
-        pthread_cond_wait(&cond, &mutex);
+    clock_gettime(CLOCK_REALTIME, &startTime);
+
+    int sfd = open("1111.rmvb", O_RDONLY);
+    if (sfd == -1) {
+        qDebug() << "Open Source File failed" << strerror(errno);
+        return NULL;
     }
 
-    fseek(mfp, 0, SEEK_SET);
+    int dfd = open("888.rmvb", O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
+    if (dfd == -1) {
+        qDebug() << "Create File failed" << strerror(errno);
+        return NULL;
+    }
+
+    char fileBuf[FILEBUFSIZE];
+
+    ssize_t nbytes;
+
     while (1) {
-        if (fgets(readBuf, sizeof(readBuf), mfp) == NULL) {
-            if (feof(mfp)) {
-                qDebug() << "Read File End";
-                break;
-            }
-            else if (ferror(mfp)) {
-                qDebug() << "Read file failed" << endl;
-                break;
-            }
+        nbytes = read(sfd, fileBuf, FILEBUFSIZE);
+        if (nbytes == 0) {
+            break;
         }
-        qDebug() << "Read data: " << readBuf << endl;
+        else if (nbytes == -1) {
+            qDebug() << "Read Source File failed" << strerror(errno);
+            break;
+        }
+        
+        if (write(dfd, fileBuf, nbytes) == -1) {
+            qDebug() << "Write File failed" << strerror(errno);
+            break;
+        }
     }
-    pthread_mutex_unlock(&mutex);
-}
 
+    close(dfd);
+    close(sfd);
+
+    clock_gettime(CLOCK_REALTIME, &endTime);
+
+    qDebug() << "Copy File Time: " << endTime.tv_sec - startTime.tv_sec << endl;
+    qDebug() << (endTime.tv_nsec - startTime.tv_nsec) / 1000 / 1000 << ":ms"<<endl;
+    */
+    qDebug() << "Thread 1 done";
+}
 
 
 void *pthread_handler2(void *)
 {
-    char *writeBuf = "cccccccccccccccccc";
+    FILE *sfp, *dfp;
 
-    pthread_mutex_lock(&mutex);
-    if (fputs(writeBuf, mfp) == EOF) {
-        if (ferror(mfp)) {
-            qDebug() << "Write file error" << endl;
-        }
+    QTime handTime;
+    handTime.start();
+
+    sfp = fopen("1111.rmvb", "r");
+    if (sfp == NULL) {
+        qDebug() << "Open file failed" << endl;
+        return NULL;
     }
-    pthread_mutex_unlock(&mutex);
-    doRead = true;
-    pthread_cond_signal(&cond);
-}
 
-void sigHandler(int signo)
-{
-    qDebug() << "Receive Signal: " << signo << strsignal(signo);
-    siglongjmp(jmpBuff, 1);
+    dfp = fopen("999.rmvb", "w+");
+    if (dfp == NULL) {
+        qDebug() << "Crate File failed" << endl;
+        return NULL;
+    }
+
+    char fileBuf[FILEBUFSIZE];
+    size_t nbytes;
+
+    while (1) {
+        nbytes = fread(fileBuf, FILEBUFSIZE, 1, sfp);
+        if (nbytes < FILEBUFSIZE) {
+            if (feof(sfp)) {
+                fwrite(fileBuf, FILEBUFSIZE, 1, dfp);
+                break;
+            }
+            else if (ferror(sfp)) {
+                break;
+            }
+        }
+        fwrite(fileBuf, FILEBUFSIZE, 1, dfp);
+    }
+
+    fclose(sfp);
+    fclose(dfp);
+
+    qDebug() << "Handtime: " << handTime.elapsed() << endl;
+    qDebug() << "Thread 2 done";
 }
 
 
@@ -100,17 +146,11 @@ void PthreadHandler::startThread()
         qDebug() << "Pthread 2 create failed";
     }
 
-    mfp = fmemopen(memFileBuf, sizeof(memFileBuf), "w+");
-    if (mfp == NULL) {
-        qDebug() << "Open mem file failed" << strerror(errno) << endl;
-    }
 
-
-    pthread_join(tid1, NULL);
     pthread_join(tid2, NULL);
+    pthread_join(tid1, NULL);
 
-    fclose(mfp);
 
-    qDebug() << "Thead main " << pthread_self() << endl;
+    qDebug() << "Thead main done" << endl;
 }
 
