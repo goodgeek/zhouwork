@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_PthreadHandler_t {
-    QByteArrayData data[3];
-    char stringdata0[28];
+    QByteArrayData data[6];
+    char stringdata0[68];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,11 +30,15 @@ struct qt_meta_stringdata_PthreadHandler_t {
 static const qt_meta_stringdata_PthreadHandler_t qt_meta_stringdata_PthreadHandler = {
     {
 QT_MOC_LITERAL(0, 0, 14), // "PthreadHandler"
-QT_MOC_LITERAL(1, 15, 11), // "startThread"
-QT_MOC_LITERAL(2, 27, 0) // ""
+QT_MOC_LITERAL(1, 15, 16), // "copyFileProgress"
+QT_MOC_LITERAL(2, 32, 0), // ""
+QT_MOC_LITERAL(3, 33, 13), // "progressValue"
+QT_MOC_LITERAL(4, 47, 8), // "maxValue"
+QT_MOC_LITERAL(5, 56, 11) // "startThread"
 
     },
-    "PthreadHandler\0startThread\0"
+    "PthreadHandler\0copyFileProgress\0\0"
+    "progressValue\0maxValue\0startThread"
 };
 #undef QT_MOC_LITERAL
 
@@ -44,15 +48,21 @@ static const uint qt_meta_data_PthreadHandler[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    2,   24,    2, 0x06 /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x02 /* Public */,
+       5,    0,   29,    2, 0x02 /* Public */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,    3,    4,
 
  // methods: parameters
     QMetaType::Void,
@@ -66,11 +76,20 @@ void PthreadHandler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         PthreadHandler *_t = static_cast<PthreadHandler *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->startThread(); break;
+        case 0: _t->copyFileProgress((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 1: _t->startThread(); break;
         default: ;
         }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (PthreadHandler::*_t)(int , int );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&PthreadHandler::copyFileProgress)) {
+                *result = 0;
+            }
+        }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject PthreadHandler::staticMetaObject = {
@@ -98,14 +117,21 @@ int PthreadHandler::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 2)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 2;
     }
     return _id;
+}
+
+// SIGNAL 0
+void PthreadHandler::copyFileProgress(int _t1, int _t2)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

@@ -18,6 +18,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <stdio.h>
+#include <dirent.h>
 
 static int fd;
 static FILE *mfp;
@@ -33,12 +34,10 @@ static jmp_buf jmpBuff;
 
 PthreadHandler::PthreadHandler()
 {
-
 }
 
 void *pthread_handler1(void *)
 {
-    /*
     struct timespec startTime, endTime;
 
     clock_gettime(CLOCK_REALTIME, &startTime);
@@ -46,6 +45,13 @@ void *pthread_handler1(void *)
     int sfd = open("1111.rmvb", O_RDONLY);
     if (sfd == -1) {
         qDebug() << "Open Source File failed" << strerror(errno);
+        return NULL;
+    }
+
+    struct stat statBuf;
+
+    if (fstat(sfd, &statBuf) == -1) {
+        qDebug() << "fstat failed" << strerror(errno) << endl;
         return NULL;
     }
 
@@ -57,7 +63,7 @@ void *pthread_handler1(void *)
 
     char fileBuf[FILEBUFSIZE];
 
-    ssize_t nbytes;
+    size_t nbytes;
 
     while (1) {
         nbytes = read(sfd, fileBuf, FILEBUFSIZE);
@@ -73,6 +79,8 @@ void *pthread_handler1(void *)
             qDebug() << "Write File failed" << strerror(errno);
             break;
         }
+
+        kill(getpid(), SIGUSR1);
     }
 
     close(dfd);
@@ -82,59 +90,52 @@ void *pthread_handler1(void *)
 
     qDebug() << "Copy File Time: " << endTime.tv_sec - startTime.tv_sec << endl;
     qDebug() << (endTime.tv_nsec - startTime.tv_nsec) / 1000 / 1000 << ":ms"<<endl;
-    */
+
     qDebug() << "Thread 1 done";
 }
 
 
 void *pthread_handler2(void *)
 {
-    FILE *sfp, *dfp;
+    struct DIR *dir;
+    struct dirent dirInfo;
 
-    QTime handTime;
-    handTime.start();
-
-    sfp = fopen("1111.rmvb", "r");
-    if (sfp == NULL) {
-        qDebug() << "Open file failed" << endl;
+    dir = opendir("./");
+    if (dir == NULL) {
+        qDebug() << "Open Source Dir failed" << endl;
         return NULL;
     }
 
-    dfp = fopen("999.rmvb", "w+");
-    if (dfp == NULL) {
-        qDebug() << "Crate File failed" << endl;
-        return NULL;
+    while (dirInfo = readdir(dir)) {
+        dirInfo.d_name
     }
 
-    char fileBuf[FILEBUFSIZE];
-    size_t nbytes;
-
-    while (1) {
-        nbytes = fread(fileBuf, FILEBUFSIZE, 1, sfp);
-        if (nbytes < FILEBUFSIZE) {
-            if (feof(sfp)) {
-                fwrite(fileBuf, FILEBUFSIZE, 1, dfp);
-                break;
-            }
-            else if (ferror(sfp)) {
-                break;
-            }
-        }
-        fwrite(fileBuf, FILEBUFSIZE, 1, dfp);
-    }
-
-    fclose(sfp);
-    fclose(dfp);
-
-    qDebug() << "Handtime: " << handTime.elapsed() << endl;
-    qDebug() << "Thread 2 done";
+    closedir(dir);
 }
 
+
+void sighandler(int signo)
+{
+
+}
 
 void PthreadHandler::startThread()
 {
     int err;
     pthread_t tid1, tid2;
+    struct sigaction act;
+
+    act.sa_flags = 0;
+    if (sigemptyset(&act.sa_mask) == -1) {
+        qDebug() << "sigemptyset failed" << strerror(errno) << endl;
+        return;
+    }
+
+    act.sa_handler = sighandler;
+    if (sigaction(SIGUSR1, &act, NULL) == -1) {
+        qDebug() << "Sigaction failed" << strerror(errno) << endl;
+        return;
+    }
 
     err = pthread_create(&tid1, NULL, pthread_handler1, NULL);
     if (err != 0) {
@@ -146,11 +147,8 @@ void PthreadHandler::startThread()
         qDebug() << "Pthread 2 create failed";
     }
 
-
     pthread_join(tid2, NULL);
     pthread_join(tid1, NULL);
 
-
     qDebug() << "Thead main done" << endl;
 }
-

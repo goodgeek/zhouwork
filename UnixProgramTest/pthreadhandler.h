@@ -9,6 +9,10 @@ class PthreadHandler : public QObject
 public:
     PthreadHandler();
     Q_INVOKABLE void startThread();
+
+signals:
+    void copyFileProgress(int progressValue, int maxValue);
+
 private:
     //int fd;
 };

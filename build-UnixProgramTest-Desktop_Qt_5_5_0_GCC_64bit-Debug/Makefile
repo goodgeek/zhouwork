@@ -1378,7 +1378,8 @@ main.o: ../UnixProgramTest/main.cpp /opt/Qt5.5.0/5.5/gcc_64/include/QtWidgets/QA
 		../UnixProgramTest/pwdobject.h \
 		../UnixProgramTest/unixshadowdatalistmodel.h \
 		../UnixProgramTest/shadowdata.h \
-		../UnixProgramTest/processmanager.h
+		../UnixProgramTest/processmanager.h \
+		../UnixProgramTest/pthreadhandler.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../UnixProgramTest/main.cpp
 
 filemanager.o: ../UnixProgramTest/filemanager.cpp ../UnixProgramTest/filemanager.h \
@@ -2042,7 +2043,11 @@ pthreadhandler.o: ../UnixProgramTest/pthreadhandler.cpp ../UnixProgramTest/pthre
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qset.h \
-		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontiguouscache.h
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QTime \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/QThread \
+		/opt/Qt5.5.0/5.5/gcc_64/include/QtCore/qthread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pthreadhandler.o ../UnixProgramTest/pthreadhandler.cpp
 
 qrc_qml.o: qrc_qml.cpp 

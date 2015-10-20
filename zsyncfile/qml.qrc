@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>TopButton.qml</file>
+        <file>FormNewTask.qml</file>
     </qresource>
 </RCC>

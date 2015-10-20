@@ -11,6 +11,7 @@ ApplicationWindow {
     width: 970;
     height: 600;
     visible: true;
+    property Component formComponet;
 
     Column {
         Rectangle {
@@ -27,6 +28,10 @@ ApplicationWindow {
                     id: btnAddTask;
                     text: "Add Task";
                     style: topBtnStyle;
+                    onClicked: {
+                        formComponet = Qt.createComponent("FormNewTask.qml");
+                        formComponet.createObject();
+                    }
                 }
 
                 Button {
