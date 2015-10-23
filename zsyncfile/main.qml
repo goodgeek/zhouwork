@@ -51,6 +51,14 @@ ApplicationWindow {
                     text: "Delete Task";
                     style: topBtnStyle;
                 }
+                TextField {
+                    id: fileText;
+                }
+                Button {
+                    id: btnFindFilie;
+                    text: "Find File";
+                    style: topBtnStyle;
+                }
             }
         }
 

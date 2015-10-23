@@ -34,10 +34,12 @@ static jmp_buf jmpBuff;
 
 PthreadHandler::PthreadHandler()
 {
+    testList = new QList<int>();
 }
 
-void *pthread_handler1(void *)
+void *PthreadHandler::pthread_handler1(void *)
 {
+    /*
     struct timespec startTime, endTime;
 
     clock_gettime(CLOCK_REALTIME, &startTime);
@@ -92,27 +94,54 @@ void *pthread_handler1(void *)
     qDebug() << (endTime.tv_nsec - startTime.tv_nsec) / 1000 / 1000 << ":ms"<<endl;
 
     qDebug() << "Thread 1 done";
+    */
 }
 
-
-void *pthread_handler2(void *)
+void PthreadHandler::findFile(QString dirName)
 {
-    struct DIR *dir;
-    struct dirent dirInfo;
+    DIR *dir;
+    struct dirent *dirInfo;
+    struct stat statBuf;
 
-    dir = opendir("./");
+    dir = opendir(dirName.toLatin1());
     if (dir == NULL) {
         qDebug() << "Open Source Dir failed" << endl;
-        return NULL;
+        return;
     }
 
-    while (dirInfo = readdir(dir)) {
-        dirInfo.d_name
+    int fileCount = 0;
+    while ((dirInfo = readdir(dir)) != NULL) {
+        fileCount++;
+
+        if (QString(dirInfo->d_name) == ".") {
+            continue;
+        }
+        if (QString(dirInfo->d_name) == "..") {
+            continue;
+        }
+
+        if (stat(dirInfo->d_name, &statBuf) == -1) {
+            qDebug() << "Get File " << dirInfo->d_name << "failed:" <<
+                        strerror(errno);
+        }
+
+        if (S_ISDIR(statBuf.st_mode)) {
+            findFile(dirInfo->d_name);
+        }
+
+        qDebug() << "File Name: " << dirInfo->d_name << "File Type:"
+                 << dirInfo->d_type << "File inode: " << dirInfo->d_ino;
+
     }
+    qDebug() << "File Count: " << fileCount << endl;
 
     closedir(dir);
 }
 
+void *PthreadHandler::pthread_handler2(void *)
+{
+    findFile("./");
+}
 
 void sighandler(int signo)
 {

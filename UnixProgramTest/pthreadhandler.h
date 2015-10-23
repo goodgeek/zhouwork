@@ -14,6 +14,11 @@ signals:
     void copyFileProgress(int progressValue, int maxValue);
 
 private:
+    QList<int> *testList;
+
+    static void findFile(QString dirName);
+    static void *pthread_handler2(void *);
+    static void *pthread_handler1(void *);
     //int fd;
 };
 
