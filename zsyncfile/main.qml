@@ -4,6 +4,7 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import zhou.app.unixfiles 1.0
 
 ApplicationWindow {
     id: mainWidnow;
@@ -12,6 +13,10 @@ ApplicationWindow {
     height: 600;
     visible: true;
     property Component formComponet;
+
+    FileManager {
+        id: fileManager;
+    }
 
     Column {
         Rectangle {
@@ -53,11 +58,15 @@ ApplicationWindow {
                 }
                 TextField {
                     id: fileText;
+                    text: "./";
                 }
                 Button {
                     id: btnFindFilie;
                     text: "Find File";
                     style: topBtnStyle;
+                    onClicked: {
+                        fileManager.getFiles(fileText.text.trim());
+                    }
                 }
             }
         }

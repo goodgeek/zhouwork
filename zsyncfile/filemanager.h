@@ -5,7 +5,7 @@
 #include <QAbstractListModel>
 #include <filemodel.h>
 
-class FileManager : QAbstractListModel
+class FileManager : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -21,7 +21,7 @@ private:
     QHash<int, QByteArray> fileHash;
     QList<FileModel *> fileModelList;
 
-    void *threadFiles(void *arg);
+    static void *threadFiles(void *arg);
 };
 
 #endif // FILEMANAGER_H
