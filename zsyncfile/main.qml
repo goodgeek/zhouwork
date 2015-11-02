@@ -74,35 +74,46 @@ ApplicationWindow {
         TableView {
             width: mainWidnow.width;
             height: mainWidnow.height - topRect.height;
+            model: fileManager;
 
             TableViewColumn {
-                title: "Backup Type";
-                role: "Local Sync";
+                title: "File Name";
+                role: "fileName";
+                width: 200;
             }
 
             TableViewColumn {
-                title: "Source Folder";
-                role: "/home/zhou"
+                title: "File Size";
+                role: "fileSize"
+                width: 100;
             }
 
             TableViewColumn {
-                title: "Size";
-                role: "100g"
+                title: "File Sort";
+                role: "fileSort";
+                width: 100;
             }
 
             TableViewColumn {
-                title: "Backup Folder";
-                role: "/home/backup/zhou"
+                title: "BlockSize";
+                role: "blockSize";
+                width: 100;
             }
 
             TableViewColumn {
-                title: "Size";
-                role: "100g";
+                title: "Block Count";
+                role: "blockCount";
+                width: 100;
             }
 
             TableViewColumn {
-                title: "Final Sync Time";
-                role: "2015-10-14";
+                title: "Modif time";
+                role: "mTime";
+                width: 200;
+            }
+
+            onClicked: {
+                console.log(row);
             }
         }
     }
