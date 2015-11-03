@@ -55,6 +55,9 @@ ApplicationWindow {
                     id: btnDelTask;
                     text: "Delete Task";
                     style: topBtnStyle;
+                    onClicked: {
+                        contenxMenu.popup();
+                    }
                 }
                 TextField {
                     id: fileText;
@@ -72,6 +75,7 @@ ApplicationWindow {
         }
 
         TableView {
+            id: tableView;
             width: mainWidnow.width;
             height: mainWidnow.height - topRect.height;
             model: fileManager;
@@ -114,6 +118,81 @@ ApplicationWindow {
 
             onClicked: {
                 console.log(row);
+            }
+
+            itemDelegate: Item {
+                Text {
+                    text: styleData.value;
+                    color: styleData.selected ? "red" : styleData.textColor;
+                }
+            }
+
+            rowDelegate: Rectangle {
+                id: rowRectangle;
+                height: 30;
+
+
+                MouseArea {
+                    anchors.fill: parent;
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton;
+                    onClicked: {
+                        if (mouse.button == Qt.RightButton) {
+                            contenxMenu.popup();
+                            console.log("right button");
+                        } else {
+                            rowRectangle.color = styleData.selected ? "lightsteelblue" :
+                                (styleData.alternate ? "blue" : "green")
+                        }
+                    }
+                }
+            }
+
+            headerDelegate: Rectangle {
+                implicitHeight: 30;
+                implicitWidth: 30;
+                border.width: 1;
+                border.color: "gray";
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter;
+                    text: styleData.value;
+                    color: styleData.pressed ? "red" : "blue";
+                }
+            }
+        }
+    }
+
+    Menu {
+        id: contenxMenu;
+        MenuItem {
+            text: "New";
+            onTriggered: {
+                console.log("Menu New");
+            }
+        }
+
+        MenuItem {
+            text: "Delete";
+            onTriggered: {
+                console.log("Menu Delete");
+            }
+        }
+
+        MenuSeparator {
+
+        }
+
+        MenuItem {
+            text: "Change";
+            onTriggered: {
+                console.log("Change");
+            }
+        }
+
+        MenuItem {
+            text: "Link"
+            onTriggered: {
+                console.log("Link");
             }
         }
     }
