@@ -122,6 +122,7 @@ ApplicationWindow {
 
             itemDelegate: Item {
                 Text {
+                    anchors.verticalCenter: parent.verticalCenter;
                     text: styleData.value;
                     color: styleData.selected ? "red" : styleData.textColor;
                 }
@@ -130,7 +131,7 @@ ApplicationWindow {
             rowDelegate: Rectangle {
                 id: rowRectangle;
                 height: 30;
-
+                color: styleData.alternate ? "#EFFFD7" : "#6FB7B7";
 
                 MouseArea {
                     anchors.fill: parent;
@@ -140,8 +141,10 @@ ApplicationWindow {
                             contenxMenu.popup();
                             console.log("right button");
                         } else {
-                            rowRectangle.color = styleData.selected ? "lightsteelblue" :
-                                (styleData.alternate ? "blue" : "green")
+                            rowRectangle.color = styleData.selected ? "#FF9224" :
+                                (styleData.alternate ? "#EFFFD7" : "#6FB7B7");
+                            console.log(styleData.row);
+                            console.log("left button");
                         }
                     }
                 }
@@ -149,14 +152,15 @@ ApplicationWindow {
 
             headerDelegate: Rectangle {
                 implicitHeight: 30;
-                implicitWidth: 30;
+                implicitWidth: 50;
                 border.width: 1;
                 border.color: "gray";
+                color:"#408080";
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter;
+                    anchors.horizontalCenter: parent.horizontalCenter;
                     text: styleData.value;
-                    color: styleData.pressed ? "red" : "blue";
                 }
             }
         }
@@ -193,6 +197,7 @@ ApplicationWindow {
             text: "Link"
             onTriggered: {
                 console.log("Link");
+                console.log(tableView.styleData.row);
             }
         }
     }
