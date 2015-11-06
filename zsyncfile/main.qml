@@ -13,6 +13,7 @@ ApplicationWindow {
     height: 600;
     visible: true;
     property Component formComponet;
+    property int clickedIndex: -1;
 
     FileManager {
         id: fileManager;
@@ -79,11 +80,13 @@ ApplicationWindow {
             width: mainWidnow.width;
             height: mainWidnow.height - topRect.height;
             model: fileManager;
+            property bool rowSelected: false;
 
             TableViewColumn {
                 title: "File Name";
                 role: "fileName";
                 width: 200;
+                horizontalAlignment: Text.AlignHCenter;
             }
 
             TableViewColumn {
@@ -116,38 +119,32 @@ ApplicationWindow {
                 width: 200;
             }
 
-            onClicked: {
-                console.log(row);
-            }
-
-            itemDelegate: Item {
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter;
-                    text: styleData.value;
-                    color: styleData.selected ? "red" : styleData.textColor;
-                }
+            itemDelegate: Text {
+                text:  styleData.value;
+                color: styleData.selected ? "red" : styleData.textColor;
+                elide: styleData.elideMode;
+                font.pointSize: styleData.selected ? 13 : 12;
             }
 
             rowDelegate: Rectangle {
                 id: rowRectangle;
                 height: 30;
-                color: styleData.alternate ? "#EFFFD7" : "#6FB7B7";
+                color: styleData.selected ? "green" : (styleData.alternate ? "#efffd7" : "#6fb7b7");
 
+                /*
                 MouseArea {
                     anchors.fill: parent;
                     acceptedButtons: Qt.LeftButton | Qt.RightButton;
                     onClicked: {
                         if (mouse.button == Qt.RightButton) {
                             contenxMenu.popup();
-                            console.log("right button");
                         } else {
-                            rowRectangle.color = styleData.selected ? "#FF9224" :
-                                (styleData.alternate ? "#EFFFD7" : "#6FB7B7");
-                            console.log(styleData.row);
                             console.log("left button");
+                            console.log(styleData.row);
                         }
                     }
                 }
+                */
             }
 
             headerDelegate: Rectangle {
@@ -162,6 +159,10 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter;
                     text: styleData.value;
                 }
+            }
+
+            onClicked: {
+                console.log("clicked");
             }
         }
     }
@@ -197,7 +198,6 @@ ApplicationWindow {
             text: "Link"
             onTriggered: {
                 console.log("Link");
-                console.log(tableView.styleData.row);
             }
         }
     }
