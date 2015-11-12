@@ -36,7 +36,7 @@ ApplicationWindow {
                     style: topBtnStyle;
                     onClicked: {
                         formComponet = Qt.createComponent("FormNewTask.qml");
-                        formComponet.createObject();
+                        formComponet.createObject(null, {dataModel: fileManager});
                     }
                 }
 
