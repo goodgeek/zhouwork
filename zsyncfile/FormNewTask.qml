@@ -17,38 +17,42 @@ Window {
     ListView {
         anchors.fill: parent;
 
-        /*
-        model: ListModel {
-            ListElement {
-                name: "Jack barwarll";
-                size: "10";
-            }
-            ListElement {
-                name: "wangweiqing";
-                size: "20";
-            }
+        focus: true;
+        highlight: Rectangle {
+            color: "blue";
         }
-        */
-        model: dataModel;
 
+        model: dataModel;
         delegate: Rectangle {
+            id: dataRow;
             width: mainWindow.width;
             height: 80;
             border.width: 1;
-            color: "green";
+            //color:
+
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    console.log(index);
+                    dataRow.ListView.view.currentIndex = index;
+                }
+            }
 
             Row {
-                spacing: 100;
+                spacing: 200;
                 anchors.fill: parent;
+
 
                 Text {
                     id: textName;
                     anchors.verticalCenter: parent.verticalCenter;
                     text: fileName;
+                    color: dataRow.ListView.isCurrentItem ? "red" : "black";
                 }
                 Text {
                     anchors.verticalCenter: parent.verticalCenter;
                     text: fileSize;
+                    color: dataRow.ListView.isCurrentItem ? "red" : "black";
                 }
             }
         }
