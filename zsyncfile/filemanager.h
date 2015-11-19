@@ -13,6 +13,7 @@ public:
     FileManager();
 
     Q_INVOKABLE void getFiles(QString path);
+    Q_INVOKABLE void onButtonClicked(int index);
 
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;

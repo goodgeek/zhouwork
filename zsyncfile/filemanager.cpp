@@ -22,6 +22,7 @@ FileManager::FileManager()
     fileHash.insert(role++, "blockSize");
     fileHash.insert(role++, "blockCount");
     fileHash.insert(role++, "mTime");
+    fileHash.insert(role++, "iconName");
 }
 
 QVariant FileManager::data(const QModelIndex &index, int role) const
@@ -47,6 +48,9 @@ QVariant FileManager::data(const QModelIndex &index, int role) const
         break;
     case 5:
         retValue = fModel->mTime;
+        break;
+    case 6:
+        retValue = fModel->iconName;
         break;
     default:
         retValue = "nukown";
@@ -103,8 +107,11 @@ void *FileManager::threadFiles(void *arg)
         QString fileMode = "nuknow";
         if (S_ISDIR(statBuf.st_mode)) {
             fileMode = "Directory";
+            fModel->iconName = "qrc:Res/d.png";
         } else if (S_ISREG(statBuf.st_mode)) {
             fileMode = "Reg File";
+            fModel->iconName = "";
+            fModel->iconName = "qrc:Res/f.png";
         }
         fModel->fileSort = fileMode;
 
@@ -139,4 +146,9 @@ void FileManager::getFiles(QString path)
 
     pthread_join(tidFile, NULL);
     emit layoutChanged();
+}
+
+void FileManager::onButtonClicked(int index)
+{
+    qDebug() << "clicked fileName: " << fileModelList.at(index)->fileName << endl;
 }

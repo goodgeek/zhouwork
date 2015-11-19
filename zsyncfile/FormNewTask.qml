@@ -6,7 +6,7 @@ Window {
     id: mainWindow;
     title: "Add New Task";
     width: 800;
-    height: 500;
+    height:800;
     visible: true;
     property variant dataModel: null;
 
@@ -16,36 +16,46 @@ Window {
 
     Component {
         id: contentDelegate;
-        Item {
+        Rectangle {
             id: wrapper;
             width: grid.cellWidth;
             height: grid.cellHeight;
-            BorderImage {
-                id: name
-                source: "file"
-                width: 100; height: 100
-                border.left: 5; border.top: 5
-                border.right: 5; border.bottom: 5
-            }
+            color: wrapper.GridView.isCurrentItem ? "#e8fff5" : "gray";
+
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
                     console.log("clicked:" + index);
+                    dataModel.onButtonClicked(index);
                     wrapper.GridView.view.currentIndex = index;
                 }
            }
 
-           Text {
-                text: fileName;
+           Column {
+               anchors.centerIn: parent;
+               spacing: 5;
+               Image {
+                   id: icon
+                   source: iconName;
+                   horizontalAlignment: Image.AlignHCenter;
+               }
+
+                Text {
+                    text: fileName;
+                    font.pointSize: 15;
+                    horizontalAlignment: Text.AlignHCenter;
+                }
            }
         }
     }
+
+    /*
 
     GridView {
         id: grid;
         anchors.fill: parent;
         cellWidth: 200;
-        cellHeight: 80;
+        cellHeight: 200;
 
         model: dataModel;
         delegate: contentDelegate;
@@ -56,6 +66,7 @@ Window {
         }
         highlightMoveDuration: 5;
     }
+    */
 
     Component {
         id: dataModels;
@@ -80,7 +91,6 @@ Window {
         }
     }
 
-    /*
     ListView {
         id: listView;
         anchors.fill: parent;
@@ -89,6 +99,7 @@ Window {
         highlight: Rectangle {
             color: "#cccc99";
         }
+        highlightMoveDuration: 5;
 
         model: dataModel;
         delegate: Item {
@@ -108,26 +119,44 @@ Window {
             }
 
 
-            Row {
-                spacing: 200;
-                anchors.fill: parent;
+            //Column {
+                Row {
+                    spacing: 200;
+                    anchors.fill: parent;
 
+                    CheckBox {
+                        id: checkBox;
+                        text: "select";
+                        checked: dataRow.ListView.isCurrentItem ? true : false;
+                    }
 
-                Text {
-                    id: sss;
-                    anchors.verticalCenter: parent.verticalCenter;
-                    text: fileName;
-                    color: dataRow.ListView.isCurrentItem ? "red" : "black";
+                    Image {
+                        source: iconName;
+                        scale: 0.3;
+                        width: 80;
+                    }
+
+                    Text {
+                        id: sss;
+                        text: fileName;
+                        width: 80;
+                        color: dataRow.ListView.isCurrentItem ? "red" : "black";
+                    }
+
+                    Text {
+                        text: fileSize;
+                        width: 80;
+                        horizontalAlignment: Text.AlignRight;
+                        color: dataRow.ListView.isCurrentItem ? "red" : "black";
+                    }
                 }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter;
-                    text: fileSize;
-                    color: dataRow.ListView.isCurrentItem ? "red" : "black";
-                }
-            }
+            //}
         }
     }
-    */
+
+    Button {
+        id: btnAdd;
+        text: "Add";
+    }
 }
 

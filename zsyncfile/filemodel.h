@@ -15,6 +15,7 @@ public:
     QString aTime;
     QString cTime;
     QString mTime;
+    QString iconName;
 };
 
 #endif // FILEMODEL_H
