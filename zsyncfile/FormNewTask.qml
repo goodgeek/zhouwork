@@ -18,16 +18,16 @@ Window {
         id: contentDelegate;
         Rectangle {
             id: wrapper;
-            width: grid.cellWidth;
-            height: grid.cellHeight;
-            color: wrapper.GridView.isCurrentItem ? "#e8fff5" : "gray";
+            //width: grid.cellWidth;
+            //height: grid.cellHeight;
+            color: wrapper.PathView.isCurrentItem ? "#e8fff5" : "gray";
 
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
                     console.log("clicked:" + index);
                     dataModel.onButtonClicked(index);
-                    wrapper.GridView.view.currentIndex = index;
+                    wrapper.PathView.view.currentIndex = index;
                 }
            }
 
@@ -49,6 +49,33 @@ Window {
         }
     }
 
+    PathView {
+        id: pathview;
+        interactive: true;
+        preferredHighlightBegin: 0.5;
+        preferredHighlightEnd: 0.5;
+        pathItemCount: 5;
+
+        model: dataModel;
+        delegate: contentDelegate;
+        path: Path {
+            startX: 0;
+            startY: 200;
+
+            PathAttribute {name: "zOrder"; value: 0;}
+            PathAttribute {name: "itemAlpha"; value: 0.1;}
+            PathAttribute {name: "itemScale"; value: 0.6;}
+            PathLine {
+                x: mainWindow.width - 1;
+                y: 200;
+            }
+        }
+
+        focus: true;
+        Keys.onLeftPressed: decrementCurrentIndex();
+        Keys.onRightPressed: incrementCurrentIndex();
+    }
+
     /*
 
     GridView {
@@ -67,30 +94,7 @@ Window {
         highlightMoveDuration: 5;
     }
     */
-
-    Component {
-        id: dataModels;
-        ListModel {
-            ListElement {
-                name: "Apple";
-                cost: "2.45";
-            }
-
-            ListElement {
-                name: "Orange";
-                cost: "1.95";
-            }
-            ListElement {
-                name: "jack";
-                cost: "2.00";
-            }
-            ListElement {
-                name: "uptime";
-                cost: "3.00";
-            }
-        }
-    }
-
+    /*
     ListView {
         id: listView;
         anchors.fill: parent;
@@ -158,5 +162,6 @@ Window {
         id: btnAdd;
         text: "Add";
     }
+    */
 }
 
