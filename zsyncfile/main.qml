@@ -44,6 +44,10 @@ ApplicationWindow {
                     id: btnsyncAll;
                     text: "Sync All";
                     style: topBtnStyle;
+                    onClicked: {
+                        formComponet = Qt.createComponent("FormShow.qml");
+                        formComponet.createObject(null);
+                    }
                 }
 
                 Button {

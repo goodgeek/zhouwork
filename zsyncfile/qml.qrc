@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>TopButton.qml</file>
         <file>FormNewTask.qml</file>
+        <file>FormShow.qml</file>
     </qresource>
 </RCC>

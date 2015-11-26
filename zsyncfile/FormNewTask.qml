@@ -14,13 +14,36 @@ Window {
         dataModel.getFiles("./");
     }
 
+    Canvas {
+        id: canvas;
+        width: mainWindow.width;
+        height: mainWindow.height;
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.linewidth = 1;
+            ctx.fillStyle = "blue";
+            ctx.font = "44px sans-serif";
+
+            ctx.beginPath();
+            ctx.moveTo(80, 80);
+            ctx.lineTo(180, 80);
+            ctx.text("hello world", 80, 200);
+            ctx.fill();
+            //ctx.stroke();
+        }
+    }
+
+    /*
     Component {
         id: contentDelegate;
-        Rectangle {
+        Item {
             id: wrapper;
             //width: grid.cellWidth;
             //height: grid.cellHeight;
-            color: wrapper.PathView.isCurrentItem ? "#e8fff5" : "gray";
+            //color: wrapper.PathView.isCurrentItem ? "#e8fff5" : "gray";
+            z: PathView.zOrder;
+            opacity: PathView.itemAlpha;
+            scale: PathView.itemScale;
 
             MouseArea {
                 anchors.fill: parent;
@@ -66,8 +89,15 @@ Window {
             PathAttribute {name: "itemAlpha"; value: 0.1;}
             PathAttribute {name: "itemScale"; value: 0.6;}
             PathLine {
-                x: mainWindow.width - 1;
+                x: mainWindow.width / 2;
                 y: 200;
+            }
+            PathAttribute {name: "zOrder"; value: 1;}
+            PathAttribute {name: "itemAlpha"; value: 0.8;}
+            PathAttribute {name: "itemScale"; value: 3.0;}
+            PathLine {
+                relativeX: mainWindow.width;
+                relativeY: 0;
             }
         }
 
@@ -75,6 +105,7 @@ Window {
         Keys.onLeftPressed: decrementCurrentIndex();
         Keys.onRightPressed: incrementCurrentIndex();
     }
+    */
 
     /*
 
