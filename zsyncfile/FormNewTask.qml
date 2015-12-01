@@ -18,20 +18,33 @@ Window {
         id: canvas;
         width: mainWindow.width;
         height: mainWindow.height;
+
         onPaint: {
             var ctx = getContext("2d");
-            ctx.linewidth = 1;
-            ctx.fillStyle = "blue";
-            ctx.font = "44px sans-serif";
+
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "blue";
+            ctx.font = "20px serif";
+
+            ctx.text("Hello World", 20, 20);
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(300, 300);
+            ctx.rotate(0.3);
+            ctx.text("What", 0, 0);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.text("jack", 30, 30);
+            ctx.stroke();
 
             ctx.beginPath();
-            ctx.moveTo(80, 80);
-            ctx.lineTo(180, 80);
-            ctx.text("hello world", 80, 200);
-            ctx.fill();
-            //ctx.stroke();
+            ctx.arc(300, 300, 100, 0, 10);
+            ctx.stroke();
         }
     }
+
 
     /*
     Component {
