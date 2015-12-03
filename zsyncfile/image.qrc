@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>Res/d.png</file>
         <file>Res/f.png</file>
+        <file>Res/array.png</file>
+        <file>Res/pp.png</file>
     </qresource>
 </RCC>

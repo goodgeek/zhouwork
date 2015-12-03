@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Window 2.0
 
 Window {
@@ -14,34 +15,61 @@ Window {
         dataModel.getFiles("./");
     }
 
-    Canvas {
-        id: canvas;
-        width: mainWindow.width;
-        height: mainWindow.height;
+    Image {
+        id: clock;
+        x: 0;
+        y: 0;
+        source: "qrc:Res/pp.png";
 
-        onPaint: {
-            var ctx = getContext("2d");
+        Image {
+            id: array;
+            x: 250;
+            y: 10;
+            source: "qrc:Res/array.png";
+            transform: Rotation {
+                id: arrayRotation;
+                origin.x: 47;
+                origin.y: 277;
+                Behavior on angle {
+                    SpringAnimation {
+                        spring: 3.0;
+                        damping: 0.3;
+                    }
+                }
+            }
+        }
+    }
 
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "blue";
-            ctx.font = "20px serif";
+    Button {
+        id: btn
+        x: 100;
+        y: 700
+        text: "start";
+        onClicked: {
+            timer.start();
+        }
+    }
 
-            ctx.text("Hello World", 20, 20);
-            ctx.stroke();
+    Button {
+        id: btn2;
+        x: 210;
+        y: 700;
+        text: "end";
+        onClicked: {
+            rot.angle = 10;
+        }
+    }
 
-            ctx.save();
-            ctx.translate(300, 300);
-            ctx.rotate(0.3);
-            ctx.text("What", 0, 0);
-            ctx.stroke();
-            ctx.restore();
 
-            ctx.text("jack", 30, 30);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.arc(300, 300, 100, 0, 10);
-            ctx.stroke();
+    Timer {
+        id: timer;
+        repeat: true;
+        interval: 200;
+        onTriggered: {
+            var d = new Date();
+            var v2 = Qt.formatTime(d, "ss") * 5;
+                arrayRotation.angle = v2;
+            console.log(Qt.formatTime(d, "ss").toString());
         }
     }
 
