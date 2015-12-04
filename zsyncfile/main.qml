@@ -5,6 +5,8 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import zhou.app.unixfiles 1.0
+import QtQuick.Window 2.0
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
     id: mainWidnow;
@@ -12,209 +14,101 @@ ApplicationWindow {
     width: 970;
     height: 600;
     visible: true;
-    property Component formComponet;
-    property int clickedIndex: -1;
+    flags: Qt.FramelessWindowHint;
+    color: "transparent"
 
-    FileManager {
-        id: fileManager;
-    }
+    Rectangle {
+        id: rectRoot;
+        width: mainWidnow.width - 5;
+        height: mainWidnow.height - 5;
 
-    Column {
+        BorderImage {
+            id: shadowImage;
+            source: "qrc:Res/window_shadow.png";
+            width: mainWidnow.width;
+            height: mainWidnow.height;
+            border.left: 0;
+            border.top: 0;
+            border.right: 5;
+            border.bottom: 5;
+        }
+
         Rectangle {
-            id: topRect;
-            width: mainWidnow.width;
-            height: 100;
-            color: "#CCCCCC";
-            Row {
-                anchors.left: parent.left;
-                anchors.leftMargin: 10;
-                anchors.verticalCenter: parent.verticalCenter;
-                spacing: 10;
-                Button {
-                    id: btnAddTask;
-                    text: "Add Task";
-                    style: topBtnStyle;
-                    onClicked: {
-                        formComponet = Qt.createComponent("FormNewTask.qml");
-                        formComponet.createObject(null, {dataModel: fileManager});
-                    }
-                }
+        id: rectTitleBar;
+        width: rectRoot.width;
+        height: 30;
+        color: "#4466aa"
 
-                Button {
-                    id: btnsyncAll;
-                    text: "Sync All";
-                    style: topBtnStyle;
-                    onClicked: {
-                        formComponet = Qt.createComponent("FormShow.qml");
-                        formComponet.createObject(null);
-                    }
-                }
+        MouseArea {
+            anchors.fill: parent;
+            acceptedButtons: Qt.LeftButton;
+            property int pointX;
+            property int pointY;
+            property variant pre;
 
-                Button {
-                    id: btnSync;
-                    text: "Sync";
-                    style: topBtnStyle;
-                }
+            onDoubleClicked: {
+                if (mainWidnow.modality == Qt.WindowMaximized)
+                    mainWidnow.showNormal()
+                else
+                    mainWidnow.showMaximized();
+            }
 
-                Button {
-                    id: btnDelTask;
-                    text: "Delete Task";
-                    style: topBtnStyle;
-                    onClicked: {
-                        contenxMenu.popup();
-                    }
-                }
-                TextField {
-                    id: fileText;
-                    text: "./";
-                }
-                Button {
-                    id: btnFindFilie;
-                    text: "Find File";
-                    style: topBtnStyle;
-                    onClicked: {
-                        fileManager.getFiles(fileText.text.trim());
-                    }
+            onPressed: {
+                pre = Qt.point(mouseX, mouseY);
+            }
+
+            onPositionChanged: {
+                var endX = mouseX - pre.x;
+                var endY = mouseY - pre.y;
+                console.log(endX + ":" + endY);
+                mainWidnow.x += endX;
+                mainWidnow.y += endY;
+            }
+        }
+        }
+
+        Image {
+            id: titleIcon;
+            x: 10;
+            y: 2;
+            source: "qrc:Res/title.png";
+        }
+
+        Image {
+            id: titleClose;
+            scale: 0.6;
+            anchors.right: parent.right;
+            anchors.top: parent.top;
+            source: "qrc:Res/close.png";
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    Qt.quit();
                 }
             }
         }
 
-        TableView {
-            id: tableView;
-            width: mainWidnow.width;
-            height: mainWidnow.height - topRect.height;
-            model: fileManager;
-            property bool rowSelected: false;
+        Rectangle {
+            id: rectLeftBar;
+            anchors.top: rectTitleBar.bottom;
+            width: 50;
+            height: rectRoot.height - rectTitleBar.height;
+            color: "#63728f"
 
-            TableViewColumn {
-                title: "File Name";
-                role: "fileName";
-                width: 200;
-                horizontalAlignment: Text.AlignHCenter;
-            }
-
-            TableViewColumn {
-                title: "File Size";
-                role: "fileSize"
-                width: 100;
-            }
-
-            TableViewColumn {
-                title: "File Sort";
-                role: "fileSort";
-                width: 100;
-            }
-
-            TableViewColumn {
-                title: "BlockSize";
-                role: "blockSize";
-                width: 100;
-            }
-
-            TableViewColumn {
-                title: "Block Count";
-                role: "blockCount";
-                width: 100;
-            }
-
-            TableViewColumn {
-                title: "Modif time";
-                role: "mTime";
-                width: 200;
-            }
-
-            itemDelegate: Text {
-                text:  styleData.value;
-                color: styleData.selected ? "red" : styleData.textColor;
-                elide: styleData.elideMode;
-                font.pointSize: styleData.selected ? 13 : 12;
-            }
-
-            rowDelegate: Rectangle {
-                id: rowRectangle;
-                height: 30;
-                color: styleData.selected ? "green" : (styleData.alternate ? "#efffd7" : "#6fb7b7");
-
-                /*
-                MouseArea {
-                    anchors.fill: parent;
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton;
-                    onClicked: {
-                        if (mouse.button == Qt.RightButton) {
-                            contenxMenu.popup();
-                        } else {
-                            console.log("left button");
-                            console.log(styleData.row);
-                        }
-                    }
+            Column{
+                anchors.top: parent.top;
+                anchors.topMargin: 10;
+                anchors.horizontalCenter: parent.horizontalCenter;
+                spacing: 1;
+                Rectangle {
+                    width: 40;
+                    height: 40;
                 }
-                */
-            }
 
-            headerDelegate: Rectangle {
-                implicitHeight: 30;
-                implicitWidth: 50;
-                border.width: 1;
-                border.color: "gray";
-                color:"#408080";
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter;
-                    anchors.horizontalCenter: parent.horizontalCenter;
-                    text: styleData.value;
+                Rectangle {
+                    width: 40;
+                    height: 40;
                 }
-            }
-
-            onClicked: {
-                console.log("clicked");
-            }
-        }
-    }
-
-    Menu {
-        id: contenxMenu;
-        MenuItem {
-            text: "New";
-            onTriggered: {
-                console.log("Menu New");
-            }
-        }
-
-        MenuItem {
-            text: "Delete";
-            onTriggered: {
-                console.log("Menu Delete");
-            }
-        }
-
-        MenuSeparator {
-
-        }
-
-        MenuItem {
-            text: "Change";
-            onTriggered: {
-                console.log("Change");
-            }
-        }
-
-        MenuItem {
-            text: "Link"
-            onTriggered: {
-                console.log("Link");
-            }
-        }
-    }
-
-    Component {
-        id: topBtnStyle;
-        ButtonStyle {
-            background: Rectangle {
-                implicitWidth: 130;
-                implicitHeight: 50;
-                radius: 5;
-                color: control.pressed ? "#663300" : control.hovered ? "#993333" : "#CC9966";
-
             }
         }
     }
