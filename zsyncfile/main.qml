@@ -17,56 +17,63 @@ ApplicationWindow {
     flags: Qt.FramelessWindowHint;
     color: "transparent"
 
+    BorderImage {
+        id: shadowImage;
+        anchors.centerIn: parent;
+        source: "qrc:Res/window_shadow.png";
+        width: mainWidnow.width;
+        height: mainWidnow.height;
+        border.left: 0;
+        border.top: 0;
+        border.right: 2;
+        border.bottom: 2;
+    }
+
+
     Rectangle {
         id: rectRoot;
         width: mainWidnow.width - 5;
         height: mainWidnow.height - 5;
+        border.width: 1;
 
-        BorderImage {
-            id: shadowImage;
-            source: "qrc:Res/window_shadow.png";
-            width: mainWidnow.width;
-            height: mainWidnow.height;
-            border.left: 0;
-            border.top: 0;
-            border.right: 5;
-            border.bottom: 5;
-        }
-
+        //TitleBar
         Rectangle {
         id: rectTitleBar;
         width: rectRoot.width;
         height: 30;
         color: "#4466aa"
 
+        //Mouse move
         MouseArea {
             anchors.fill: parent;
             acceptedButtons: Qt.LeftButton;
-            property int pointX;
-            property int pointY;
-            property variant pre;
+            property int startMoveX;
+            property int startMoveY;
 
             onDoubleClicked: {
-                if (mainWidnow.modality == Qt.WindowMaximized)
-                    mainWidnow.showNormal()
+                if (mainWidnow.visibility == Window.Maximized)
+                    mainWidnow.showNormal();
                 else
                     mainWidnow.showMaximized();
+
+                console.log(mainWidnow.visibility);
             }
 
             onPressed: {
-                pre = Qt.point(mouseX, mouseY);
+                startMoveX = mouseX;
+                startMoveY = mouseY;
             }
 
             onPositionChanged: {
-                var endX = mouseX - pre.x;
-                var endY = mouseY - pre.y;
-                console.log(endX + ":" + endY);
-                mainWidnow.x += endX;
-                mainWidnow.y += endY;
+                var endMoveX = mouseX - startMoveX;
+                var endMoveY = mouseY - startMoveY;
+                mainWidnow.x += endMoveX;
+                mainWidnow.y += endMoveY;
             }
         }
         }
 
+        //Icon
         Image {
             id: titleIcon;
             x: 10;
@@ -74,6 +81,13 @@ ApplicationWindow {
             source: "qrc:Res/title.png";
         }
 
+        Text {
+            anchors.left: parent.left;
+            anchors.horizontalCenter: parent.horizontalCenter;
+            text: "zFile";
+        }
+
+        //Close Icon
         Image {
             id: titleClose;
             scale: 0.6;
@@ -88,6 +102,7 @@ ApplicationWindow {
             }
         }
 
+        //LeftBar
         Rectangle {
             id: rectLeftBar;
             anchors.top: rectTitleBar.bottom;
@@ -103,12 +118,54 @@ ApplicationWindow {
                 Rectangle {
                     width: 40;
                     height: 40;
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            console.log("button1 clicked");
+                            stackView.push(view1);
+                        }
+                    }
                 }
 
                 Rectangle {
                     width: 40;
                     height: 40;
+                    MouseArea {
+                        anchors.fill: parent;
+                        onClicked: {
+                            if (mainWidnow.modality == Qt.WindowMaximized) {
+                                console.log("max");
+                            } else {
+                                console.log("min");
+                            }
+                        }
+                    }
                 }
+            }
+        }
+
+        StackView {
+            id: stackView;
+            width: rectRoot.width;
+            height: rectRoot.height - rectTitleBar.height;
+            delegate: StackViewDelegate {
+                pushTransition: StackViewTransition {
+                    PropertyAnimation {
+                        target: view1;
+                        property: "opacity";
+                        from: 0;
+                        to: 1;
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: view1;
+            Rectangle {
+                width: rectRoot.width - rectLeftBar.width;
+                height: rectRoot.height - rectTitleBar.height;
+                color: "blue";
             }
         }
     }
