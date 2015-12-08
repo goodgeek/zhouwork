@@ -20,20 +20,20 @@ ApplicationWindow {
     BorderImage {
         id: shadowImage;
         anchors.centerIn: parent;
-        source: "qrc:Res/window_shadow.png";
-        width: mainWidnow.width;
-        height: mainWidnow.height;
-        border.left: 0;
-        border.top: 0;
-        border.right: 2;
-        border.bottom: 2;
+        anchors.fill: parent;
+        source: "qrc:Res/bk.png";
+        border.left: 1;
+        border.top: 1;
+        border.right: 1;
+        border.bottom: 1;
     }
 
 
     Rectangle {
         id: rectRoot;
-        width: mainWidnow.width - 5;
-        height: mainWidnow.height - 5;
+        anchors.centerIn: shadowImage;
+        width: shadowImage.width-2;
+        height: shadowImage.height-2;
         border.width: 1;
 
         //TitleBar
@@ -82,8 +82,8 @@ ApplicationWindow {
         }
 
         Text {
-            anchors.left: parent.left;
-            anchors.horizontalCenter: parent.horizontalCenter;
+            x: rectRoot.width / 2;
+            y: 5;
             text: "zFile";
         }
 
@@ -122,6 +122,7 @@ ApplicationWindow {
                         anchors.fill: parent;
                         onClicked: {
                             console.log("button1 clicked");
+                            stackView.clear();
                             stackView.push(view1);
                         }
                     }
@@ -133,11 +134,8 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
-                            if (mainWidnow.modality == Qt.WindowMaximized) {
-                                console.log("max");
-                            } else {
-                                console.log("min");
-                            }
+                            stackView.clear();
+                            stackView.push(view2);
                         }
                     }
                 }
@@ -146,7 +144,9 @@ ApplicationWindow {
 
         StackView {
             id: stackView;
-            width: rectRoot.width;
+            anchors.top: rectTitleBar.bottom;
+            anchors.left: rectLeftBar.right;
+            width: rectRoot.width - rectLeftBar.width;
             height: rectRoot.height - rectTitleBar.height;
             delegate: StackViewDelegate {
                 pushTransition: StackViewTransition {
@@ -163,9 +163,19 @@ ApplicationWindow {
         Component {
             id: view1;
             Rectangle {
-                width: rectRoot.width - rectLeftBar.width;
-                height: rectRoot.height - rectTitleBar.height;
-                color: "blue";
+                width: stackView.width;
+                height: stackView.height;
+                color: "#8888a6"
+            }
+        }
+
+        Component {
+            id: view2;
+            Rectangle {
+                width: stackView.width;
+                height: stackView.height;
+                color: "#94cbec"
+
             }
         }
     }
