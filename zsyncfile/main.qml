@@ -28,7 +28,6 @@ ApplicationWindow {
         border.bottom: 1;
     }
 
-
     Rectangle {
         id: rectRoot;
         anchors.centerIn: shadowImage;
@@ -79,6 +78,12 @@ ApplicationWindow {
             x: 10;
             y: 2;
             source: "qrc:Res/title.png";
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    leftMenu.popup();
+                }
+            }
         }
 
         Text {
@@ -115,9 +120,10 @@ ApplicationWindow {
                 anchors.topMargin: 10;
                 anchors.horizontalCenter: parent.horizontalCenter;
                 spacing: 1;
-                Rectangle {
+                Image {
                     width: 40;
                     height: 40;
+                    source: "qrc:Res/fodler.png";
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
@@ -128,9 +134,10 @@ ApplicationWindow {
                     }
                 }
 
-                Rectangle {
+                Image {
                     width: 40;
                     height: 40;
+                    source: "qrc:Res/stroy.png";
                     MouseArea {
                         anchors.fill: parent;
                         onClicked: {
@@ -166,6 +173,51 @@ ApplicationWindow {
                 width: stackView.width;
                 height: stackView.height;
                 color: "#8888a6"
+                ListView {
+                    width: parent.width;
+                    height: parent.height;
+                    delegate: Item {
+                        id: wrapper;
+                        width: parent.width;
+                        height: 30;
+                        Row {
+                            spacing: 80;
+                            Text {
+                                text: name;
+                                width: 100;
+                            }
+
+                            Text {
+                                text: age;
+                                width: 100;
+                            }
+                        }
+                        MouseArea {
+                            anchors.fill: parent;
+                            onClicked: {
+                                wrapper.ListView.view.currentIndex = index;
+                            }
+                        }
+                    }
+
+                    model: ListModel {
+                        ListElement {
+                            name: "zhoujinlu";
+                            age: "33";
+                        }
+                        ListElement {
+                            name: "wwq";
+                            age: "28";
+                        }
+                    }
+
+                    focus: true;
+                    highlight: Rectangle {
+                        width: parent.width;
+                        height: 30;
+                        color: "#b38080"
+                    }
+                }
             }
         }
 
@@ -176,6 +228,39 @@ ApplicationWindow {
                 height: stackView.height;
                 color: "#94cbec"
 
+            }
+        }
+
+        Menu {
+            id: mainMenu;
+            MenuItem {
+                text: "menu one"
+            }
+            MenuItem {
+                text: "menu two"
+            }
+        }
+
+        Menu {
+            id: leftMenu;
+            MenuItem {
+                text: "android";
+                checkable: true;
+                iconName: "ssss";
+                onTriggered: {
+                    console.log("Clikced android menu");
+                }
+                onToggled: {
+                    console.log("Toggled");
+                }
+            }
+            MenuItem {
+                text: "webos";
+            }
+            MenuSeparator {}
+
+            MenuItem {
+                text: "ios";
             }
         }
     }

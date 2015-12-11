@@ -8,5 +8,7 @@
         <file>Res/close.png</file>
         <file>Res/window_shadow.png</file>
         <file>Res/bk.png</file>
+        <file>Res/fodler.png</file>
+        <file>Res/stroy.png</file>
     </qresource>
 </RCC>
