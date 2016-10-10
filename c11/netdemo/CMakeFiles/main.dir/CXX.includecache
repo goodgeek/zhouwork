@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/zhouwork/c11/netdemo/logger.h
+string
+-
+
+/root/zhouwork/c11/netdemo/main.cpp
+unistd.h
+-
+stdio.h
+-
+logger.h
+/root/zhouwork/c11/netdemo/logger.h
+
