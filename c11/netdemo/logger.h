@@ -14,6 +14,10 @@ public:
     void logInfo(std::string info);
     void logDebug(std::string info);
     void logError(std::string info);
-}
+
+private:
+    void logWrite(std::string logMsg);
+    bool isDirExist(std::string dirName);
+};
 
 #endif
