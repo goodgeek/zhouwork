@@ -1,12 +1,17 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "logger.h"
+#include <stdlib.h>
+#include <time.h>
+#include "tcpserver.h"
 
 int main()
 {
     Logger *log = new Logger();
-    log->logInfo("hello");
+    log->logInfo("Start application...");
 
-    printf("hello world!\n");
+    TcpServer server;
+    server.startServer();
+
     return 0;
 }
