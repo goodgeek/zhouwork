@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/zhou/zhouwork/c11/netdemo/logger.cpp
+/root/zhouwork/c11/netdemo/logger.cpp
 logger.h
-/home/zhou/zhouwork/c11/netdemo/logger.h
+/root/zhouwork/c11/netdemo/logger.h
 stdio.h
 -
 unistd.h
@@ -28,33 +28,33 @@ string.h
 time.h
 -
 
-/home/zhou/zhouwork/c11/netdemo/logger.h
+/root/zhouwork/c11/netdemo/logger.h
 string
 -
 
-/home/zhou/zhouwork/c11/netdemo/main.cpp
+/root/zhouwork/c11/netdemo/main.cpp
 unistd.h
 -
 stdio.h
 -
 logger.h
-/home/zhou/zhouwork/c11/netdemo/logger.h
+/root/zhouwork/c11/netdemo/logger.h
 stdlib.h
 -
 time.h
 -
 tcpserver.h
-/home/zhou/zhouwork/c11/netdemo/tcpserver.h
+/root/zhouwork/c11/netdemo/tcpserver.h
 
-/home/zhou/zhouwork/c11/netdemo/tcpserver.cpp
+/root/zhouwork/c11/netdemo/tcpserver.cpp
 tcpserver.h
-/home/zhou/zhouwork/c11/netdemo/tcpserver.h
+/root/zhouwork/c11/netdemo/tcpserver.h
 sys/types.h
 -
 sys/socket.h
 -
 logger.h
-/home/zhou/zhouwork/c11/netdemo/logger.h
+/root/zhouwork/c11/netdemo/logger.h
 string.h
 -
 netinet/in.h
@@ -62,5 +62,5 @@ netinet/in.h
 unistd.h
 -
 
-/home/zhou/zhouwork/c11/netdemo/tcpserver.h
+/root/zhouwork/c11/netdemo/tcpserver.h
 

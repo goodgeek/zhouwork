@@ -20,11 +20,11 @@ bool TcpServer::startServer()
     log.logInfo("Start Tcp Server on 8003");
     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (listenfd == -1) {
-        return false;     
+        return false;
     }
-    
+
     struct sockaddr_in serverAddr;
-    
+
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -44,15 +44,13 @@ bool TcpServer::startServer()
 
     while (!serverExit_) {
         int clientfd = accept(listenfd, (struct sockaddr*)&clientAddr, &addrLen);
-        
+
         log.logInfo("Hava client");
         char buf[1024];
         ssize_t nr = recv(clientfd, buf, sizeof(buf), 0);
         buf[nr] = '\0';
 
-        
         close(clientfd);
     }
-    
     close(listenfd);
 }

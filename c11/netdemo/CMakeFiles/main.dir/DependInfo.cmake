@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zhou/zhouwork/c11/netdemo/logger.cpp" "/home/zhou/zhouwork/c11/netdemo/CMakeFiles/main.dir/logger.cpp.o"
-  "/home/zhou/zhouwork/c11/netdemo/main.cpp" "/home/zhou/zhouwork/c11/netdemo/CMakeFiles/main.dir/main.cpp.o"
-  "/home/zhou/zhouwork/c11/netdemo/tcpserver.cpp" "/home/zhou/zhouwork/c11/netdemo/CMakeFiles/main.dir/tcpserver.cpp.o"
+  "/root/zhouwork/c11/netdemo/logger.cpp" "/root/zhouwork/c11/netdemo/CMakeFiles/main.dir/logger.cpp.o"
+  "/root/zhouwork/c11/netdemo/main.cpp" "/root/zhouwork/c11/netdemo/CMakeFiles/main.dir/main.cpp.o"
+  "/root/zhouwork/c11/netdemo/tcpserver.cpp" "/root/zhouwork/c11/netdemo/CMakeFiles/main.dir/tcpserver.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
