@@ -21,32 +21,39 @@ Logger::~Logger()
 
 void Logger::logInfo(std::string info)
 {
-    logWrite(info);
+    logWrite("INFO ", info);
     return;
 }
 
 void Logger::logDebug(std::string info)
 {
+    logWrite("DEBUG", info);
     return;
 }
 
 void Logger::logError(std::string info)
 {
+    logWrite("ERROR", info);
     return;
 }
 
-void Logger::logWrite(std::string logMsg)
+void Logger::logWrite(std::string logHeader, std::string logMsg)
 {
     printf("%s\n", logMsg.c_str());
 
     if (!isDirExist("logs")) {
         mkdir("logs", 0777);
     }
-    
-    time_t nowTime = time(nullptr);
+
+    time_t nowTime = time(NULL);
     struct tm *tPtr = localtime(&nowTime);
     char timeBuf[64];
     strftime(timeBuf, sizeof(timeBuf), "%Y-%m-%d.log", tPtr);
+
+    char timeHeader[64];
+    strftime(timeHeader, sizeof(timeHeader), "%H:%M:%S ", tPtr);
+    std::string strTimeHeader = std::string(timeHeader);
+    strTimeHeader = "[" + strTimeHeader + logHeader + "] ";
 
     std::string strLog = "logs/";
     strLog += timeBuf;
@@ -58,7 +65,7 @@ void Logger::logWrite(std::string logMsg)
         return;
     }
 
-    logMsg += "\n";
+    logMsg =  strTimeHeader + logMsg + "\n";
     ssize_t nw = write(fd, logMsg.c_str(), logMsg.length());
     if (nw == -1) {
         printf("Write log file failed: %s\n", strerror(nw));

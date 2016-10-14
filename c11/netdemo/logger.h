@@ -16,7 +16,7 @@ public:
     void logError(std::string info);
 
 private:
-    void logWrite(std::string logMsg);
+    void logWrite(std::string logHeader, std::string logMsg);
     bool isDirExist(std::string dirName);
 };
 
