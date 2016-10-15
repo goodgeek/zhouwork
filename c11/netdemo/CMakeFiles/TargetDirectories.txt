@@ -1,3 +1,0 @@
-/root/zhouwork/c11/netdemo/CMakeFiles/rebuild_cache.dir
-/root/zhouwork/c11/netdemo/CMakeFiles/edit_cache.dir
-/root/zhouwork/c11/netdemo/CMakeFiles/main.dir
