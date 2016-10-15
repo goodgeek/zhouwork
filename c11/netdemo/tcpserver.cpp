@@ -49,6 +49,8 @@ bool TcpServer::startServer()
         char buf[1024];
         ssize_t nr = recv(clientfd, buf, sizeof(buf), 0);
         buf[nr] = '\0';
+        
+        log.logInfo(std::string("Receive Data:") + std::string(buf));
 
         close(clientfd);
     }
