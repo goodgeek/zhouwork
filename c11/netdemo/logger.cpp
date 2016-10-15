@@ -39,14 +39,13 @@ void Logger::logError(std::string info)
 
 void Logger::logWrite(std::string logHeader, std::string logMsg)
 {
-    printf("%s\n", logMsg.c_str());
-
     if (!isDirExist("logs")) {
         mkdir("logs", 0777);
     }
 
     time_t nowTime = time(NULL);
     struct tm *tPtr = localtime(&nowTime);
+
     char timeBuf[64];
     strftime(timeBuf, sizeof(timeBuf), "%Y-%m-%d.log", tPtr);
 
@@ -70,6 +69,7 @@ void Logger::logWrite(std::string logHeader, std::string logMsg)
     if (nw == -1) {
         printf("Write log file failed: %s\n", strerror(nw));
     }
+    printf("%s", logMsg.c_str());
 
     close(fd);
 }
