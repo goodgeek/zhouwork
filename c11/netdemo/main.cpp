@@ -5,17 +5,12 @@
 #include <time.h>
 #include "tcpserver.h"
 #include "threadnet.h"
+#include <array>
+#include "sealbase.h"
 
 int main()
 {
-    Logger *log = new Logger();
-    log->logInfo("Start application...");
-
-    ThreadNet net;
-    net.startNet();
-
-    TcpServer server;
-    server.startServer();
+    SealBase base(20, "zhou");
 
     return 0;
 }
