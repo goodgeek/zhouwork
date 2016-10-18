@@ -7,8 +7,10 @@ class SealBase
 {
 public:
     SealBase(int age, std::string name);
-    SealBase(const SealBase& base);
-    SealBase& operator=(const SealBase& base);
+    SealBase(const SealBase &base);
+    SealBase& operator=(const SealBase &base);
+    SealBase(const SealBase &&base) noexcept;
+    SealBase& operator=(const SealBase &&base);
     ~SealBase();
 private:
     int age_;
