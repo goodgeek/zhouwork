@@ -5,19 +5,15 @@
 #include <time.h>
 #include "tcpserver.h"
 #include "threadnet.h"
-#include <array>
 #include "sealbase.h"
 #include <iostream>
+#include <string>
+using namespace std;
+
 
 int main()
 {
-    int i = 20;
-    int &j = i;
-    int &&k = std::move(i);
+    SealBase base;
 
-    std::cout << "i=" << i << std::endl; 
-    std::cout << "j=" << j << std::endl;
-    std::cout << "k=" << k << std::endl;
-    std::cout << "i=" << i << std::endl; 
     return 0;
 }

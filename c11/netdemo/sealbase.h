@@ -6,15 +6,17 @@
 class SealBase 
 {
 public:
-    SealBase(int age, std::string name);
+    SealBase() = default;
+    SealBase(int age, int *ptr, std::string name);
     SealBase(const SealBase &base);
-    SealBase& operator=(const SealBase &base);
-    SealBase(const SealBase &&base) noexcept;
-    SealBase& operator=(const SealBase &&base);
+    SealBase &operator=(const SealBase &base);
+    SealBase(SealBase &&base) noexcept;
+    SealBase &operator=(SealBase &&base) noexcept;
     ~SealBase();
 private:
     int age_;
     std::string name_;
+    int *ptr_;
 };
 
 #endif
