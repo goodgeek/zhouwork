@@ -13,6 +13,8 @@ public:
     SealBase(SealBase &&base) noexcept;
     SealBase &operator=(SealBase &&base) noexcept;
     ~SealBase();
+
+    SealBase operator+(const SealBase &lv, const SealBase &rv);
 private:
     int age_;
     std::string name_;

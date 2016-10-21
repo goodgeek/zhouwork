@@ -45,3 +45,7 @@ SealBase::~SealBase()
 {
 }
 
+SealBase operator+(const SealBase &lv, const SealBase &rv)
+{
+    SealBase sb = lv;
+}
