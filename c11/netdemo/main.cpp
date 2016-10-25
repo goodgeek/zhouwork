@@ -13,7 +13,12 @@ using namespace std;
 
 int main()
 {
-    SealBase base;
+    SealBase base(35, new(int), "zhou");
+    SealBase b2;
+    b2 = base;
+
+    sb += rv;
+
 
     return 0;
 }
