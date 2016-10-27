@@ -52,11 +52,12 @@ SealBase::~SealBase()
     std::cout << "析构函数" << std::endl;
 }
 
-<<<<<<< HEAD
-SealBase operator+(const SealBase &lv, const SealBase &rv)
+SealBase operator+(const SealBase &rv)
 {
-    SealBase sb = lv;
-=======
+    SealBase sb = rv;
+    return sb;
+}
+
 int SealBase::age() const
 {
     return age_;
@@ -75,5 +76,4 @@ std::string SealBase::name() const
 void SealBase::setName(std::string name)
 {
     name_ = name;
->>>>>>> d8169435f96ede79fe199a776d768d31aba983c3
 }

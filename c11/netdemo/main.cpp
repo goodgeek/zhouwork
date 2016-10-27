@@ -10,15 +10,28 @@
 #include <string>
 using namespace std;
 
+class Quote 
+{
+public:
+    Quote() = default;
+    Quote(string name) : name_(name) {};
+
+    string printName() const { return name_; }
+private:
+    string name_;
+};
+
+class D : public Quote 
+{
+public:
+    D() = default; 
+};
 
 int main()
 {
-    SealBase base(35, new(int), "zhou");
-    SealBase b2;
-    b2 = base;
-
-    sb += rv;
-
+    D d;
+    auto a = d.printName();
+    cout << a << endl;
 
     return 0;
 }
