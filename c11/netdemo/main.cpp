@@ -10,10 +10,9 @@
 #include <string>
 using namespace std;
 
-class Quote 
+class Quote
 {
 public:
-    Quote() = default;
     Quote(string name) : name_(name) {};
 
     string printName() const { return name_; }
@@ -24,14 +23,29 @@ private:
 class D : public Quote 
 {
 public:
-    D() = default; 
+    D(string name) : Quote(name) {}
+    string printName() const { return "I'm d"; }
 };
 
-int main()
+template <typename T>
+int compare(const T &v1, const T &v2)
 {
-    D d;
-    auto a = d.printName();
-    cout << a << endl;
+    if (v1 < v2)
+        return -1;
+    if (v2 < v1)
+        return 1;
 
     return 0;
 }
+
+int main()
+{
+    D d("hello");
+    auto a = d.printName();
+    cout << a << endl;
+
+    compare(5, 2);
+
+    return 0;
+}
+
