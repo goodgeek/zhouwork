@@ -43,6 +43,7 @@ int main()
     D d("hello");
     auto a = d.printName();
     cout << a << endl;
+    cout << "hello wrold" << endl;
 
     compare(5, 2);
 
