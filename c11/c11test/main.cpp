@@ -1,17 +1,22 @@
 #include <string>
 #include <cstdio>
+#include <memory>
+#include <iostream>
 
-template<typename T>
-
-auto compare(const T &v1, const T &v2)
+class TestBase
 {
-    return v1 + v2;
-}
+public:
+    TestBase(int age): age_(age) {}
+    std::string showMessage() { return "hello"; }
+private:
+    int age_;
+};
 
 int main(int argc, char *argv[])
 {
-    auto i = compare(3.0, 5.2);
-    printf("%f\n", i);    
+    std::shared_ptr<TestBase> ptrTestBase = std::make_shared<TestBase>(5);
+    std::cout << "ptr count:" <<  ptrTestBase.use_count() << std::endl;
+    std::cout << ptrTestBase.get()->showMessage() << std::endl;
 
     return 0;
 }
