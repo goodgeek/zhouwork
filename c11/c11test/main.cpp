@@ -2,25 +2,24 @@
 #include <cstdio>
 #include <memory>
 #include <iostream>
+#include <vector>
 
-class TestBase
-{
+class HasPtr {
 public:
-    enum Result { NoError, Success };
-
-    TestBase(int age): age_(age) {}
-    std::string showMessage() { return "hello"; }
-    Result gotoZero() { return Success; }
+    HasPtr(const std::string &s = std::string()) :
+        ps(new std::string(s)), i(0) {}
+    HasPtr(const HasPtr &p) : 
+        ps(new std::string(*p.ps)), i(p.i) {}
+    HasPtr &operator=(const HasPtr &);
+    ~HasPtr() { delete ps; }
 private:
-    int age_;
+    std::string *ps;
+    int i;
 };
 
 int main(int argc, char *argv[])
 {
-    std::shared_ptr<TestBase> ptrTestBase = std::make_shared<TestBase>(5);
-    std::cout << "ptr count:" <<  ptrTestBase.use_count() << std::endl;
-    std::cout << ptrTestBase.get()->showMessage() << std::endl;
-    std::cout << ptrTestBase.get()->gotoZero() << std::endl;
+    HasPtr ptr;
 
     return 0;
 }
