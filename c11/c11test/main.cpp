@@ -3,53 +3,62 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include <iostream>
 
-class HasPtr final {
+class Human
+{
 public:
-    HasPtr(const std::string &s = std::string()) :
-        ps(new std::string(s)), i(0), use(new std::size_t(1)) 
-        {}
-    HasPtr(const HasPtr &ptr) :
-        ps(ptr.ps), i(ptr.i), use(ptr.use) { ++*use; }
-    HasPtr& operator=(const HasPtr &rhs);
-    ~HasPtr();
+    typedef int int8;
+    Human() = default;
+    Human(std::string name, int age) : 
+        name_(name), age_(age) {}
+    virtual std::string printName()
+    { std::cout << "base" << std::endl; return name_; }
+    virtual auto getAge() -> int8;
 private:
-    std::string *ps;
-    int i;
-    std::size_t *use;
+    std::string name_;
+protected:
+    int age_;
 };
 
-HasPtr::~HasPtr() 
+auto Human::getAge() -> int8
 {
-    if (--*use == 0) {
-        delete ps;
-        delete use;
-    }
+    return 20;
 }
 
-HasPtr& HasPtr::operator=(const HasPtr &rhs)
+class Phone : public Human
 {
-    ++*rhs.use;
+public:
+    std::string printName() override 
+    { std::cout << "jack" << std::endl; return "jack"; } 
+    void setAge(int age) { age_ = age; }
+private:
+    int j;
+};
 
-    if (--*use == 0) {
-        delete ps;
-        delete use;
-    } 
-
-    ps = rhs.ps;
-    i = rhs.i;
-    use = rhs.use;
-
-    return *this;
+void PrintHuman(Human &human)
+{
+    std::cout << human.printName() << std::endl;
 }
+
+class object
+{
+public:
+    virtual void getObjName() = 0;
+    void showMessage() { std::cout << "message" << std::endl; }
+private:
+    std::string objName;
+};
+
+class widget : private object
+{
+public:
+    void getObjName() { std::cout << "hello" << std::endl; }
+};
 
 int main(int argc, char *argv[])
 {
-    int i = 20;
-    double j = 30.2;
-    j = static_cast<int>(i);
-
-    std::cout << "hello world" << std::endl;
-
+    widget wd;
+    wd.showMessage();
     return 0;
 }
