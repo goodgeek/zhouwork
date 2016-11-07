@@ -37,8 +37,15 @@ private:
 };
 
 
+template <typename T>
+int compare(const T &a, const T &b)
+{
+    if (a < b) return -1;
+    if (b < a) return 1; 
+} 
+
 int main(int argc, char *argv[])
 {
-    
+    compare(5, 6);
     return 0;
 }
