@@ -5,6 +5,9 @@
 #include <vector>
 #include <iostream>
 #include <tuple>
+#include <bitset>
+#include <iostream>
+#include <fstream>
 
 class Object
 {
@@ -72,7 +75,10 @@ private:
 
 int main(int argc, char *argv[])
 {
-    std::tuple<int, int, int> ret(1, 5, 9);
-    std::cout << std::get<0>(ret) << std::endl;
+    std::ofstream f("test.txt", ofstream::out);
+
+    f << "hello world"
+
+    std::cout << "input:" << input << std::endl;
     return 0;
 }
