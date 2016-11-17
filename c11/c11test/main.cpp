@@ -1,13 +1,20 @@
 #include <string>
 #include <cstdio>
 #include <memory>
-#include <iostream>
 #include <vector>
 #include <iostream>
-#include <tuple>
-#include <bitset>
-#include <iostream>
 #include <fstream>
+#include <list>
+#include <deque>
+#include <forward_list>
+#include <array>
+#include <string>
+
+using std::string;
+using std::cout;
+using std::endl;
+
+std::string find(std::string v, std::vector<std::string> &vec);
 
 class Object
 {
@@ -75,10 +82,45 @@ private:
 
 int main(int argc, char *argv[])
 {
-    std::ofstream f("test.txt", ofstream::out);
+    std::fstream f("/root/11.txt", std::fstream::in);
 
-    f << "hello world"
+    std::vector<std::string> strVec;
 
-    std::cout << "input:" << input << std::endl;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line != "") {
+            strVec.push_back(line);
+        }
+    }
+
+    cout << "size:" << strVec.size() << endl;
+
+    while(std::getline(std::cin, line)) {
+        if (line == "quit") {
+            break;
+        }
+
+        auto str = find(line, strVec);
+        if (str != "") {
+            std::cout << "find: " << str << std::endl;
+        }
+    }
+
     return 0;
+}
+
+std::string find(std::string v, std::vector<std::string> &vec)
+{
+    for (auto i : vec) {
+        if (i == v) {
+            return i;
+        }
+    } 
+
+    return "";
+}
+
+std::vector<std::string> split(std::string str, std::string dem)
+{
+    
 }
