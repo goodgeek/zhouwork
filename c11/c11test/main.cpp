@@ -18,21 +18,19 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+class Base {
+public:
+    Base() = default;
+    void ShowPrint() { return; }
+};
+
 std::string find(std::string v, std::vector<std::string> &vec);
 
 int main(int argc, char *argv[])
 {
-    std::map<int, string> dataMap;
+    std::map<int, string> mp = {{1, "hello"}, {2, "jack"}, {3, "uptime"}};
 
-    for (int i = 0; i < 100; i++) {
-        auto ret = dataMap.insert({i, "hello"});    
-        if (!ret.second) {
-            cout << "Insert data failed: " << i << endl;
-        }
-    }
-
-    printf("size: %d\n", dataMap.size());
-
+    
     return 0;
 }
 
