@@ -15,6 +15,9 @@
 #include <unordered_map>
 #include <utility>
 #include <typeinfo>
+#include <random>
+#include <unistd.h>
+#include <time.h>
 
 using std::string;
 using std::cout;
@@ -31,10 +34,12 @@ std::string find(std::string v, std::vector<std::string> &vec);
 
 int main(int argc, char *argv[])
 {
-    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7};
-    
+    std::uniform_int_distribution<unsigned> u(10000, 99999);
+    std::default_random_engine e;
 
-    cout << typeid("hello").name() << endl;
+    for (int i = 0; i < 50; i++) {
+        cout << u(e) << endl;
+    }
 
     return 0;
 }
