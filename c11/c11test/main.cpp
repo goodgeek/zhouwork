@@ -12,6 +12,9 @@
 #include <map>
 #include <set>
 #include <cstdio>
+#include <unordered_map>
+#include <utility>
+#include <typeinfo>
 
 using std::string;
 using std::cout;
@@ -28,9 +31,11 @@ std::string find(std::string v, std::vector<std::string> &vec);
 
 int main(int argc, char *argv[])
 {
-    std::map<int, string> mp = {{1, "hello"}, {2, "jack"}, {3, "uptime"}};
-
+    std::vector<int> vec = {1, 2, 3, 4, 5, 6, 7};
     
+
+    cout << typeid("hello").name() << endl;
+
     return 0;
 }
 
