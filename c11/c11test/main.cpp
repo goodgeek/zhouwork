@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <bitset>
 #include <cstdio>
 #include <unordered_map>
 #include <utility>
@@ -18,6 +19,8 @@
 #include <random>
 #include <unistd.h>
 #include <time.h>
+#include <thread>
+#include <algorithm>
 
 using std::string;
 using std::cout;
@@ -30,17 +33,16 @@ public:
     void ShowPrint() { return; }
 };
 
-std::string find(std::string v, std::vector<std::string> &vec);
-
 int main(int argc, char *argv[])
 {
-    std::uniform_int_distribution<unsigned> u(10000, 99999);
-    std::default_random_engine e;
+    std::vector<string> strvec = {"hello", "what", "is", "your", "name"};
+    std::sort(strvec.begin(), strvec.end());
 
-    for (int i = 0; i < 50; i++) {
-        cout << u(e) << endl;
+    std::vector<string> str2vec(5);
+
+    for (auto i : strvec) {
+        cout << i << endl;
     }
-
     return 0;
 }
 
