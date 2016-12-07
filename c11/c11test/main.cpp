@@ -25,17 +25,34 @@
 #include <sys/time.h>
 #include <functional>
 #include <dirent.h>
+#include <stack>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
 
-
+class Base {
+public:
+    Base() = default;
+    Base(std::initializer_list<string> li) {}
+    string showMessage() { return "ok";}
+private:
+    string name;
+};
 
 int main(int argc, char *argv[])
 {
-    const int &a = 2 + 3;
-    cout << a << endl;
+    std::allocator<Base> alloc;
+    auto p = alloc.allocate(5);
+    auto q = p;
+    alloc.construct(q++);
+    while (q != p) {
+        alloc.destroy(q--);
+    }
+
+    alloc.deallocate(p, 2);
+
     return 0;
 }
+
