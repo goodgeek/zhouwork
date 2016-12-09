@@ -1,57 +1,29 @@
-#include <string>
-#include <cstdio>
-#include <memory>
-#include <vector>
 #include <iostream>
-#include <fstream>
-#include <list>
-#include <deque>
-#include <forward_list>
-#include <array>
-#include <string>
-#include <map>
-#include <set>
-#include <bitset>
-#include <cstdio>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <typeinfo>
-#include <random>
-#include <unistd.h>
-#include <time.h>
-#include <thread>
-#include <algorithm>
-#include <sys/time.h>
-#include <functional>
-#include <dirent.h>
-#include <stack>
+#include "base.h"
+#include "human.h"
+#include <vector>
+#include <memory>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
 
-class Base {
-public:
-    Base() = default;
-    Base(std::initializer_list<string> li) {}
-    string showMessage() { return "ok";}
-private:
-    string name;
-};
-
 int main(int argc, char *argv[])
 {
-    std::allocator<Base> alloc;
-    auto p = alloc.allocate(5);
-    auto q = p;
-    alloc.construct(q++);
-    while (q != p) {
-        alloc.destroy(q--);
-    }
+    std::shared_ptr<Base> ptrBase = 
+        std::make_shared<Base>("zhou", 30, new Human("j"));
 
-    alloc.deallocate(p, 2);
+    Base *ptrBase2 = new Base("jj", 20, new Human("jjj"));
+    ptrBase.reset(ptrBase2);
+    string name = ptrBase->getName();
+    cout << "Name: " << name << endl; 
+
+    string line;
+    while (cin >> line) {
+        if (line == "quit") 
+            break;
+    }
 
     return 0;
 }
