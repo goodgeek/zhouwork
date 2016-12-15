@@ -9,39 +9,42 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-class Human {
+template<typename T>
+class Store {
 public:
-    Human() = default;
-    Human(int i) : i_(i) {}
-    Human(const Human &h) : i_(h.i_) {}
-    Human& operator=(const Human &h) { i_ = h.i_; return *this; }
-    int getNumber() const { return i_; }
-    int setNumbar(int i) { i_ = i; }
-    int operator() (int a) { return a + i_; }
-    operator int() { return 20; }
+    Store& operator=(const Store& s);
+    void push(const T& v);
+    T& pop();
+    int getSize();
+    bool empty();
 private:
-    int i_;
-};
-
-class Ch : public Human {
-public:
-    Ch(const Ch &h) : j_(h.j_) {}
-    Ch& operator=(const Ch &h) { j_ = h.j_; return *this; }
-    string showMessage() { return "message"; } 
-private:
-    int j_;
+    std::vector<T> pBox;
 };
 
 template<typename T>
-int add(const T &t, const T &a)
+void Store<T>::push(const T& v)
 {
-    return a * t;
+    pBox.push_back(v);
+}
+
+template<typename T>
+T& Store<T>::pop()
+{
+    if (pBox.size() > 0)
+        return pBox.back();
+}
+
+template<typename T>
+Store<T>& Store<T>::operator=(const Store &s)
+{
+    
 }
 
 int main(int argc, char *argv[])
 {
-    Ch h;
-    Ch h2;
+    Store<int> a;
+    a.push(10);
+    cout << a.pop() << endl;
 
     return 0;
 }
