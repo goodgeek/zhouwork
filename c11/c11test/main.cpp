@@ -9,9 +9,10 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-template<typename T>
+template<typename T = int>
 class Store {
 public:
+    typename std::vector<T>::size_type st;
     Store& operator=(const Store& s);
     void push(const T& v);
     T& pop();
@@ -19,6 +20,7 @@ public:
     bool empty();
 private:
     std::vector<T> pBox;
+    static int ctr;
 };
 
 template<typename T>
@@ -40,11 +42,13 @@ Store<T>& Store<T>::operator=(const Store &s)
     
 }
 
+template<typename T = int> using storeAny = Store<T>;
+
 int main(int argc, char *argv[])
 {
-    Store<int> a;
+    storeAny<> a;
+
     a.push(10);
-    cout << a.pop() << endl;
 
     return 0;
 }
