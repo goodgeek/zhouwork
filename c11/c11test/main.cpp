@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <type_traits>
+#include <typeinfo>
 
 using std::string;
 using std::cout;
@@ -42,13 +44,26 @@ Store<T>& Store<T>::operator=(const Store &s)
     
 }
 
-template<typename T = int> using storeAny = Store<T>;
+template<typename T>
+T add(const T &a, const T &b)
+{
+    return a + b;
+}
+
+template<> double add(const double &a, const double &b)
+{
+    return a + b;
+}
 
 int main(int argc, char *argv[])
 {
-    storeAny<> a;
+    double a1 = 2.2;
+    double a2 = 3.0;
+    cout << add(a1, a2) << endl;
 
-    a.push(10);
+    if 1{
+        std::cout << "hello wrold" << endl;
+    }
 
     return 0;
 }
