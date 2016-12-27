@@ -3,68 +3,64 @@
 #include <vector>
 #include <memory>
 #include <map>
-#include <type_traits>
 #include <typeinfo>
+#include <random>
+#include <time.h>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
 
-template<typename T = int>
-class Store {
+class Component
+{
 public:
-    typename std::vector<T>::size_type st;
-    Store& operator=(const Store& s);
-    void push(const T& v);
-    T& pop();
-    int getSize();
-    bool empty();
-private:
-    std::vector<T> pBox;
-    static int ctr;
+    virtual void operation() = 0;
 };
 
-template<typename T>
-void Store<T>::push(const T& v)
+class ConcreteComponent : public Component
 {
-    pBox.push_back(v);
-}
+public:
+    void operation()
+    {
+        std::cout << "ssssss" << std::endl;
+    }
+};
 
-template<typename T>
-T& Store<T>::pop()
+class Decorator : public Component
 {
-    if (pBox.size() > 0)
-        return pBox.back();
-}
+public:
+    void setComponent(std::shared_ptr<Component> ptr)
+    {
+        pComponent = ptr;
+    }
 
-template<typename T>
-Store<T>& Store<T>::operator=(const Store &s)
-{
-    
-}
+    void operation() override
+    {
+        if (pComponent) {
+            pComponent->operation();
+        }
+    }
+protected:
+    std::shared_ptr<Component> pComponent;
+};
 
-template<typename T>
-T add(const T &a, const T &b)
+class ConcreteDecoreatorA : public Decorator
 {
-    return a + b;
-}
-
-template<> double add(const double &a, const double &b)
-{
-    return a + b;
-}
+public:
+    void operation() override
+    {
+        Decorator::operation();
+        addedState = "New State";
+        std::cout << "jtzssss" << std::endl;
+    }
+private:
+    std::string addedState;
+};
 
 int main(int argc, char *argv[])
 {
-    double a1 = 2.2;
-    double a2 = 3.0;
-    cout << add(a1, a2) << endl;
-
-    if 1{
-        std::cout << "hello wrold" << endl;
-    }
-
+    
     return 0;
 }
 
