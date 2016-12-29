@@ -12,55 +12,81 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-class Component
+class SubSystemOne
 {
 public:
-    virtual void operation() = 0;
-};
-
-class ConcreteComponent : public Component
-{
-public:
-    void operation()
+    void MethodOne()
     {
-        std::cout << "ssssss" << std::endl;
+        cout << "system one method" << endl;
     }
 };
 
-class Decorator : public Component
+class SubSystemTwo
 {
 public:
-    void setComponent(std::shared_ptr<Component> ptr)
+    void MethodTwo()
     {
-        pComponent = ptr;
+        cout << "system two method" << endl;
     }
-
-    void operation() override
-    {
-        if (pComponent) {
-            pComponent->operation();
-        }
-    }
-protected:
-    std::shared_ptr<Component> pComponent;
 };
 
-class ConcreteDecoreatorA : public Decorator
+class SubSystemThree
 {
 public:
-    void operation() override
+    void MethodThree()
     {
-        Decorator::operation();
-        addedState = "New State";
-        std::cout << "jtzssss" << std::endl;
+        cout << "system three method" << endl;
     }
-private:
-    std::string addedState;
+};
+
+class SubSystemFour
+{
+public:
+    void MethodFour()
+    {
+        cout << "system four method" << endl;
+    }
+};
+
+class Facade
+{
+public:
+    std::unique_ptr<SubSystemOne> onePtr;
+    std::unique_ptr<SubSystemTwo> twoPtr;
+    std::unique_ptr<SubSystemThree> threePtr;
+    std::unique_ptr<SubSystemFour> fourPtr;
+
+    Facade()
+    {
+        onePtr.reset(new SubSystemOne());
+        twoPtr.reset(new SubSystemTwo());
+        threePtr.reset(new SubSystemThree());
+        fourPtr.reset(new SubSystemFour());
+    }
+
+    void methodA()
+    {
+        cout << "Method group A" << endl;
+        onePtr->MethodOne();
+        twoPtr->MethodTwo();
+        fourPtr->MethodFour();
+    }
+
+    void methodB()
+    {
+        cout << "Method group B" << endl;
+        twoPtr->MethodTwo();
+        threePtr->MethodThree();
+    }
 };
 
 int main(int argc, char *argv[])
 {
-    
+    Facade face;
+
+    face.methodA();
+    face.methodB();
+
     return 0;
 }
 
